@@ -1,313 +1,299 @@
 # nutrition_insights/scrappers/journals_scrapper.py
-"""
-PubMed journals scraper (protein-focused) with append + incremental mode.
-
-- Appends to data/journals.json
-- Dedupes by PMID
-- Incremental:
-    * --since ISO-8601 (preferred)
-    * else data/state_journals.json:last_run_iso
-    * else --months N (default 6)
-
-Env (optional):
-  NCBI_API_KEY, NCBI_EMAIL
-  PUBMED_MONTHS_BACK (default 6)
-  PUBMED_RETMAX (default 500)
-  PUBMED_PAGE_SIZE (default 200)
-
-Examples:
-  python scrappers/journals_scrapper.py --since 2025-06-01T00:00:00Z --retmax 400
-  python scrappers/journals_scrapper.py --months 6
-"""
-
-import os
-import json
-import time
-import argparse
+from __future__ import annotations
+import argparse, json, os, sys, time
+from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any, Optional
+import xml.etree.ElementTree as ET
+
 import requests
-from xml.etree import ElementTree as ET
-from pathlib import Path
+from urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter
 
-# -----------------------------
-# Config / Paths
-# -----------------------------
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = PROJECT_ROOT / "data"
-OUT_PATH = DATA_DIR / "journals.json"
-STATE_PATH = DATA_DIR / "state_journals.json"
+"""
+PubMed scraper (robust):
+- ESearch (JSON) to find PMIDs, with retries + date-window splitting on timeouts
+- ESummary (JSON) to get title, pubdate, etc.
+- EFetch (XML) ONLY for abstract text (JSON isn't supported for PubMed abstracts)
+- Incremental: --since ISO; appends and de-dupes by id=pmid:<id>
+- Polite rate limiting + optional NCBI_EMAIL / NCBI_API_KEY
+- is_verified=True for journals
+"""
 
-# Defaults (can be overridden by ENV or CLI)
-DEFAULT_MONTHS_BACK = int(os.getenv("PUBMED_MONTHS_BACK", "6"))
-DEFAULT_RETMAX = int(os.getenv("PUBMED_RETMAX", "500"))
-DEFAULT_PAGE_SIZE = int(os.getenv("PUBMED_PAGE_SIZE", "200"))
-SLEEP_SEC = 0.2  # polite pause between efetch pages
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+OUTFILE = DATA_DIR / "journals.json"
 
-# Query: protein-focused (keep yours)
-QUERY = 'protein AND (nutrition OR diet OR supplement OR "protein powder" OR whey OR casein OR leucine OR "amino acid")'
+ESEARCH  = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+ESUMMARY = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+EFETCH   = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 
-# Trusted source flags
-SOURCE_TYPE = "pubmed_article"
-IS_VERIFIED = True
-MIN_ABSTRACT_CHARS = 200
+QUERY = (
+    '((protein[tiab] OR "protein intake"[tiab] OR "dietary protein"[tiab] OR high-protein[tiab] '
+    'OR "protein supplementation"[tiab] OR "protein supplement"[tiab] OR whey[tiab] OR casein[tiab] '
+    'OR "milk protein"[tiab] OR collagen[tiab] OR "plant protein"[tiab] OR "soy protein"[tiab] '
+    'OR "pea protein"[tiab] OR "rice protein"[tiab] OR "hemp protein"[tiab] OR "amino acid"[tiab] '
+    'OR "essential amino acid"[tiab] OR EAA[tiab] OR BCAA[tiab] OR leucine[tiab]) '
+    'OR Dietary Proteins[mh] OR Protein Supplementation[mh] OR Whey Proteins[mh] OR Caseins[mh] '
+    'OR Amino Acids, Essential[mh]) '
+    'AND (nutrition[tiab] OR diet[tiab] OR dietary[tiab] OR "sports nutrition"[tiab] OR exercise[tiab] '
+    'OR training[tiab] OR "resistance training"[tiab] OR muscle[tiab] OR "muscle protein synthesis"[tiab] '
+    'OR MPS[tiab] OR hypertrophy[tiab] OR strength[tiab] OR recovery[tiab] OR performance[tiab] '
+    'OR satiety[tiab] OR "weight loss"[tiab] OR "body composition"[tiab] OR "fat loss"[tiab] '
+    'OR sarcopenia[tiab] OR "older adults"[tiab] OR aging[tiab] OR athletes[tiab] OR bioavailability[tiab] '
+    'OR digestibility[tiab] OR DIAAS[tiab] OR PDCAAS[tiab] OR "protein quality"[tiab] OR "protein timing"[tiab] '
+    'OR "protein distribution"[tiab] OR "per-meal protein"[tiab] OR "gut health"[tiab] OR microbiome[tiab] '
+    'OR kidney[tiab] OR renal[tiab] OR safety[tiab] OR tolerability[tiab]) '
+    'AND Humans[mh] NOT ("protein kinase"[tiab] OR kinase[tiab] OR phosphorylation[tiab] OR proteomics[tiab] '
+    'OR "protein folding"[tiab] OR amyloid[tiab] OR prion[tiab] OR ubiquitin[tiab] OR "transcription factor"[tiab] '
+    'OR "signal transduction"[tiab] OR oncogene[tiab])'
+)
 
-# PubMed E-utilities
-ESEARCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-EFETCH  = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+# ---------------- HTTP session with retries ----------------
 
-# Optional: set your NCBI API key & contact email (recommended)
-NCBI_API_KEY = os.getenv("NCBI_API_KEY", "")   # export NCBI_API_KEY=your_key
-NCBI_EMAIL   = os.getenv("NCBI_EMAIL", "")     # export NCBI_EMAIL=you@domain.com
+def build_session(timeout_s: int = 45) -> requests.Session:
+    s = requests.Session()
+    retry = Retry(
+        total=5, connect=5, read=5,
+        backoff_factor=1.2,
+        status_forcelist=(429, 500, 502, 503, 504),
+        allowed_methods=("GET", "POST"),
+        raise_on_status=False,
+    )
+    adapter = HTTPAdapter(max_retries=retry, pool_connections=10, pool_maxsize=10)
+    s.mount("https://", adapter)
+    s.mount("http://", adapter)
+    s.timeout = timeout_s
+    return s
 
-# -----------------------------
-# Helpers
-# -----------------------------
-def utc_now() -> datetime:
-    return datetime.now(timezone.utc)
-
-def iso_now() -> str:
-    return utc_now().isoformat()
-
-def to_date_str(d: datetime) -> str:
-    """PubMed E-utilities expects YYYY/MM/DD for mindate/maxdate."""
-    return d.strftime("%Y/%m/%d")
-
-def parse_iso(s: str) -> Optional[datetime]:
-    try:
-        s = s.replace("Z", "+00:00")
-        dt = datetime.fromisoformat(s)
-        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
-    except Exception:
-        return None
-
-def load_json_list(p: Path) -> list:
-    if not p.exists():
-        return []
-    try:
-        return json.loads(p.read_text(encoding="utf-8"))
-    except Exception:
-        return []
-
-def save_json(p: Path, obj) -> None:
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
-
-def load_state() -> dict:
-    if not STATE_PATH.exists():
-        return {}
-    try:
-        return json.loads(STATE_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
-
-def save_state(obj: dict) -> None:
-    save_json(STATE_PATH, obj)
-
-def _base_params():
-    p = {}
-    if NCBI_API_KEY:
-        p["api_key"] = NCBI_API_KEY
-    if NCBI_EMAIL:
-        p["email"] = NCBI_EMAIL
+def eutils_params(base: Dict[str, Any]) -> Dict[str, Any]:
+    p = dict(base)
+    email = os.environ.get("NCBI_EMAIL")
+    api_key = os.environ.get("NCBI_API_KEY")
+    if email:   p["email"] = email
+    if api_key: p["api_key"] = api_key
     return p
 
-# -----------------------------
-# PubMed calls
-# -----------------------------
-def esearch_pmids(term: str, start_date: str, end_date: str, retmax: int) -> List[str]:
-    params = {
-        **_base_params(),
+def polite_delay():
+    # NCBI suggests ≤3 req/sec (higher with api_key). We stay conservative.
+    time.sleep(0.35)
+
+# ---------------- ESearch with window splitting ------------
+
+def esearch_pmids(session: requests.Session, query: str, start: datetime, end: datetime, retmax: int) -> List[str]:
+    params = eutils_params({
         "db": "pubmed",
-        "term": term,
+        "term": query,
         "retmode": "json",
-        "retmax": str(retmax),
-        "mindate": start_date,
-        "maxdate": end_date,
-        "datetype": "pdat",   # publication date
-        "sort": "most+recent"
-    }
-    r = requests.get(ESEARCH, params=params, timeout=30)
-    r.raise_for_status()
-    data = r.json()
-    idlist = data.get("esearchresult", {}).get("idlist", [])
-    return idlist
+        "retmax": retmax,
+        "sort": "pub_date",
+        "datetype": "pdat",
+        "mindate": start.strftime("%Y/%m/%d"),
+        "maxdate": end.strftime("%Y/%m/%d"),
+    })
+    polite_delay()
+    try:
+        r = session.get(ESEARCH, params=params, timeout=session.timeout)
+        r.raise_for_status()
+        data = r.json()
+        idlist = data.get("esearchresult", {}).get("idlist", [])
+        return list(dict.fromkeys(idlist))
+    except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
+        if (end - start).days <= 1:
+            raise
+        mid = start + (end - start) / 2
+        mid = datetime.fromtimestamp(mid.timestamp(), tz=start.tzinfo)
+        left  = esearch_pmids(session, query, start, mid, retmax)
+        right = esearch_pmids(session, query, mid + timedelta(days=1), end, retmax)
+        return list(dict.fromkeys(left + right))
+    except requests.HTTPError:
+        # If rate limited, back off and split once
+        if r is not None and r.status_code in (429, 500, 502, 503, 504):
+            time.sleep(3)
+            if (end - start).days <= 1:
+                raise
+            mid = start + (end - start) / 2
+            mid = datetime.fromtimestamp(mid.timestamp(), tz=start.tzinfo)
+            left  = esearch_pmids(session, query, start, mid, retmax)
+            right = esearch_pmids(session, query, mid + timedelta(days=1), end, retmax)
+            return list(dict.fromkeys(left + right))
+        raise
 
-def efetch_xml(pmids: List[str]) -> str:
-    params = {
-        **_base_params(),
-        "db": "pubmed",
-        "retmode": "xml",
-        "id": ",".join(pmids),
-    }
-    r = requests.get(EFETCH, params=params, timeout=60)
-    r.raise_for_status()
-    return r.text
+# ---------------- ESummary (JSON) --------------------------
 
-def text_or_none(el):
-    return el.text.strip() if el is not None and el.text else None
-
-def _parse_pubdate(article) -> Optional[str]:
-    # Try Journal pub date first
-    pub = article.find("Journal/JournalIssue/PubDate") if article is not None else None
-    year = text_or_none(pub.find("Year")) if pub is not None else None
-    month = text_or_none(pub.find("Month")) if pub is not None else None
-    day = text_or_none(pub.find("Day")) if pub is not None else None
-    if not year:
-        return None
-    m = month or "01"
-    d = day or "01"
-    dt = None
-    # common formats (e.g., "2024-Aug-15" or "2024-08-15")
-    for fmt in ("%Y-%b-%d", "%Y-%m-%d", "%Y-%b", "%Y-%m", "%Y"):
-        try:
-            dt = datetime.strptime(f"{year}-{m}-{d}", fmt if "%d" in fmt else fmt)
-            break
-        except Exception:
-            continue
-    if not dt:
-        # last resort: just year-month-day normalized
-        try:
-            dt = datetime.strptime(f"{year}-{m}-{d}", "%Y-%m-%d")
-        except Exception:
-            return None
-    return dt.replace(tzinfo=timezone.utc).isoformat()
-
-def parse_pubmed_xml(xml_text: str) -> List[Dict[str, Any]]:
-    root = ET.fromstring(xml_text)
-    records = []
-
-    for node in root.findall(".//PubmedArticle"):
-        medline = node.find("MedlineCitation")
-        article = medline.find("Article") if medline is not None else None
-
-        pmid_el = medline.find("PMID") if medline is not None else None
-        pmid = text_or_none(pmid_el)
-
-        title = text_or_none(article.find("ArticleTitle")) if article is not None else None
-        journal = text_or_none(article.find("Journal/Title")) if article is not None else None
-
-        # Abstract
-        abstract_parts = []
-        if article is not None:
-            for ab in article.findall("Abstract/AbstractText"):
-                if ab.text:
-                    abstract_parts.append(ab.text.strip())
-        abstract = "\n\n".join(abstract_parts).strip() if abstract_parts else ""
-
-        pub_iso = _parse_pubdate(article)
-
-        combined_text = ((title or "").strip() + "\n\n" + abstract).strip()
-
-        # Protein filter + minimal content
-        if "protein" not in combined_text.lower():
-            continue
-        if len(abstract) < MIN_ABSTRACT_CHARS:
-            if not (title and "protein" in title.lower()):
-                continue
-
-        url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else None
-
-        records.append({
-            "pmid": pmid,
-            "title": title,
-            "journal": journal,
-            "url": url,
-            "domain": "pubmed.ncbi.nlm.nih.gov",
-            "published_at": pub_iso,                   # may be None
-            "date_status": "known" if pub_iso else "unknown",
-            "combined_text": combined_text,
-            "source_type": SOURCE_TYPE,
-            "is_verified": IS_VERIFIED
+def esummary_meta(session: requests.Session, pmids: List[str]) -> Dict[str, Dict[str, Any]]:
+    """
+    Return {pmid: {title, pubdate, doi?}} via ESummary JSON.
+    """
+    meta: Dict[str, Dict[str, Any]] = {}
+    if not pmids:
+        return meta
+    BATCH = 200
+    for i in range(0, len(pmids), BATCH):
+        chunk = pmids[i:i+BATCH]
+        params = eutils_params({
+            "db": "pubmed",
+            "retmode": "json",
+            "id": ",".join(chunk),
         })
+        polite_delay()
+        r = session.get(ESUMMARY, params=params, timeout=session.timeout)
+        r.raise_for_status()
+        data = r.json()
+        # ESummary JSON: data["result"] has "uids" and uid objects
+        res = data.get("result", {})
+        for uid in res.get("uids", []):
+            rec = res.get(uid, {})
+            title = (rec.get("title") or "").strip()
+            pubdate = (rec.get("pubdate") or rec.get("sortpubdate") or "").strip()
+            eloc = rec.get("elocationid") or ""
+            articleids = rec.get("articleids") or []
+            doi = ""
+            for a in articleids:
+                if a.get("idtype") == "doi":
+                    doi = a.get("value") or ""
+                    break
+            meta[uid] = {"title": title, "date": pubdate, "doi": doi, "elocationid": eloc}
+    return meta
 
-    return records
+# ---------------- EFetch (XML) for abstracts --------------
 
-# -----------------------------
-# Main
-# -----------------------------
+def efetch_abstracts(session: requests.Session, pmids: List[str]) -> Dict[str, str]:
+    """
+    Return {pmid: abstract_text} by parsing PubmedArticleSet XML.
+    """
+    out: Dict[str, str] = {}
+    if not pmids:
+        return out
+    BATCH = 200
+    for i in range(0, len(pmids), BATCH):
+        chunk = pmids[i:i+BATCH]
+        params = eutils_params({
+            "db": "pubmed",
+            "retmode": "xml",          # XML is the stable format for PubMed abstracts
+            "rettype": "abstract",
+            "id": ",".join(chunk),
+        })
+        polite_delay()
+        r = session.get(EFETCH, params=params, timeout=session.timeout)
+        r.raise_for_status()
+        xml_text = r.text
+
+        # Parse XML defensively
+        try:
+            root = ET.fromstring(xml_text)
+        except ET.ParseError:
+            # If something odd returned, skip this batch gracefully
+            continue
+
+        # Find abstracts:
+        # /PubmedArticleSet/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText
+        for art in root.findall(".//PubmedArticle"):
+            pmid_el = art.find(".//MedlineCitation/PMID")
+            pmid = pmid_el.text.strip() if pmid_el is not None and pmid_el.text else None
+            if not pmid:
+                continue
+            # An abstract can have multiple AbstractText nodes (with Label attributes)
+            parts: List[str] = []
+            for ab in art.findall(".//MedlineCitation/Article/Abstract/AbstractText"):
+                txt = (ab.text or "").strip()
+                label = ab.attrib.get("Label")
+                if txt:
+                    parts.append(f"{label}: {txt}" if label else txt)
+            out[pmid] = "\n\n".join([p for p in parts if p])
+    return out
+
+# ---------------- IO helpers ------------------------------
+
+def load_existing(path: Path) -> Dict[str, Dict[str, Any]]:
+    if not path.exists():
+        return {}
+    try:
+        arr = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(arr, list):
+            return {str(x.get("id") or x.get("pmid")): x for x in arr if isinstance(x, dict)}
+        return {}
+    except Exception:
+        return {}
+
+def save_all(path: Path, records: List[Dict[str, Any]]):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
+
+# ---------------- main ------------------------------------
+
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--since", type=str, default=None, help="ISO-8601 UTC (e.g., 2025-06-01T00:00:00Z)")
-    ap.add_argument("--months", type=int, default=DEFAULT_MONTHS_BACK, help="Window size if no --since/state")
-    ap.add_argument("--retmax", type=int, default=DEFAULT_RETMAX, help="Max PMIDs to fetch from esearch")
-    ap.add_argument("--page-size", type=int, default=DEFAULT_PAGE_SIZE, help="IDs per efetch request (100-200 good)")
+    ap = argparse.ArgumentParser(description="Scrape PubMed protein-in-nutrition (incremental, robust).")
+    ap.add_argument("--since", help="ISO timestamp for incremental cutoff (exclusive). If omitted, uses 6 months back.")
+    ap.add_argument("--months-back", type=int, default=6, help="Fallback lookback if --since missing.")
+    ap.add_argument("--retmax", type=int, default=500, help="ESearch max PMIDs to return.")
     args = ap.parse_args()
 
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-
-    # Decide start/end window
-    state = load_state()
-    since_iso = args.since or state.get("last_run_iso")
-    if since_iso:
-        since_dt = parse_iso(since_iso)
-        if not since_dt:
-            since_dt = utc_now() - timedelta(days=args.months * 30)
+    now = datetime.now(timezone.utc)
+    if args.since:
+        try:
+            start = datetime.fromisoformat(args.since.replace("Z", "+00:00"))
+        except Exception:
+            print(f"[WARN] Bad --since format; using {args.months_back} months back.", file=sys.stderr)
+            start = now - timedelta(days=30 * args.months_back)
     else:
-        since_dt = utc_now() - timedelta(days=args.months * 30)
+        start = now - timedelta(days=30 * args.months_back)
+    end = now
 
-    end_dt = utc_now()
+    print(f"[PubMed] Window: {start.strftime('%Y/%m/%d')} → {end.strftime('%Y/%m/%d')}  (fallback {args.months_back} months)")
+    session = build_session(timeout_s=45)
 
-    start_date = to_date_str(since_dt)
-    end_date   = to_date_str(end_dt)
-    print(f"[PubMed] Window: {start_date} → {end_date}  ({args.months} months back fallback)")
-
-    # Existing data for append + dedupe
-    existing = load_json_list(OUT_PATH)
-    existing_by_pmid = {r.get("pmid"): r for r in existing if r.get("pmid")}
-
-    # Search IDs
-    pmids = esearch_pmids(QUERY, start_date, end_date, args.retmax)
+    # 1) PMIDs
+    try:
+        pmids = esearch_pmids(session, QUERY, start, end, args.retmax)
+    except Exception as e:
+        print(f"[ERROR] ESearch failed: {e}", file=sys.stderr)
+        sys.exit(1)
     print(f"[PubMed] Found {len(pmids)} PMIDs (cap {args.retmax})")
 
-    # Remove PMIDs we already have to avoid refetch
-    pmids_to_fetch = [p for p in pmids if p not in existing_by_pmid]
-    print(f"[PubMed] New PMIDs to fetch: {len(pmids_to_fetch)} (skipped {len(pmids) - len(pmids_to_fetch)} known)")
+    # 2) Incremental skip
+    existing = load_existing(OUTFILE)
+    new_pmids = [p for p in pmids if f"pmid:{p}" not in existing]
+    print(f"[PubMed] New PMIDs to fetch: {len(new_pmids)} (skipped {len(pmids) - len(new_pmids)} known)")
 
-    # Fetch in batches
-    all_new: List[Dict[str, Any]] = []
-    for i in range(0, len(pmids_to_fetch), args.page_size):
-        batch = pmids_to_fetch[i:i+args.page_size]
-        if not batch:
-            break
-        xml_text = efetch_xml(batch)
-        recs = parse_pubmed_xml(xml_text)
-        all_new.extend(recs)
-        print(f"[PubMed] Parsed {len(recs)} records (new total {len(all_new)})")
-        time.sleep(SLEEP_SEC)
-        # Hard stop if we already reached retmax worth of *new* records
-        if len(all_new) >= args.retmax:
-            break
+    # If nothing new, exit cleanly
+    if not new_pmids:
+        print(f"✅ Saved 0 new | total={len(existing)} → {OUTFILE}")
+        return
 
-    # Merge + dedupe (prefer existing, then add new)
-    merged = {**existing_by_pmid}
-    for r in all_new:
-        pmid = r.get("pmid")
-        if not pmid:
-            continue
-        if pmid not in merged:
-            merged[pmid] = r
+    # 3) ESummary for metadata
+    meta = esummary_meta(session, new_pmids)
 
-    # Sort (newest first when available)
-    def sort_key(x):
-        d = x[1].get("published_at")
-        try:
-            return parse_iso(d).timestamp() if d else 0.0
-        except Exception:
-            return 0.0
+    # 4) EFetch for abstracts (XML)
+    abstracts = efetch_abstracts(session, new_pmids)
 
-    final_list = [v for _, v in sorted(merged.items(), key=sort_key, reverse=True)]
+    # 5) Build records
+    to_add: List[Dict[str, Any]] = []
+    for p in new_pmids:
+        m = meta.get(p, {})
+        title = (m.get("title") or "").strip()
+        date  = (m.get("date")  or "").strip()
+        text  = abstracts.get(p, "").strip()
+        url   = f"https://pubmed.ncbi.nlm.nih.gov/{p}/"
+        rec = {
+            "id": f"pmid:{p}",
+            "pmid": p,
+            "title": title,
+            "date": date,
+            "url": url,
+            "source": "journals",
+            "is_verified": True,
+            "text": text,
+        }
+        to_add.append(rec)
 
-    save_json(OUT_PATH, final_list)
-    print(f"✅ Saved {len(all_new)} new | total={len(final_list)} → {OUT_PATH}")
-
-    # Update state (use now, not last pub date)
-    save_state({
-        "last_run_iso": iso_now(),
-        "last_window": {"start": start_date, "end": end_date},
-        "added": len(all_new),
-        "total": len(final_list)
-    })
+    # 6) Merge & save
+    merged: Dict[str, Dict[str, Any]] = dict(existing)
+    for r in to_add:
+        merged[r["id"]] = r
+    merged_list = list(merged.values())
+    save_all(OUTFILE, merged_list)
+    print(f"✅ Saved {len(to_add)} new | total={len(merged_list)} → {OUTFILE}")
 
 if __name__ == "__main__":
     main()
