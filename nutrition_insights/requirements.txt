@@ -1,0 +1,23 @@
+# Core utilities
+python-dotenv>=1.0.1
+requests>=2.32.3
+tenacity>=8.2.3
+tqdm>=4.66.5
+feedparser>=6.0.11
+beautifulsoup4>=4.12.3
+lxml>=5.2.2
+
+# Reddit (API client)
+praw>=7.7.1
+
+# Data / math
+numpy>=1.24,<3
+
+# Vector index
+faiss-cpu==1.8.0.post1   # If pip wheel fails on your OS, see note below.
+
+# RAG & text utils
+rapidfuzz>=3.9.6         # near-duplicate & fuzzy matching for filtering
+
+# Optional: pretty printing / CLI niceties (safe to keep)
+rich>=13.7.1
