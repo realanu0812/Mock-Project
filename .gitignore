@@ -50,3 +50,9 @@ nutrition_insights/**/cache/
 *.tar
 *.tar.gz
 *.tgz
+# ignore big/temporary stuff
+*.zip
+.venv/
+nutrition_insights/.venv*/
+__pycache__/
+*.pyc
