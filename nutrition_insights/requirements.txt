@@ -21,3 +21,6 @@ rapidfuzz>=3.9.6         # near-duplicate & fuzzy matching for filtering
 
 # Optional: pretty printing / CLI niceties (safe to keep)
 rich>=13.7.1
+
+sentence-transformers>=2.7.0
+torch  # or pin a version if you like
