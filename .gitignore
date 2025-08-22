@@ -1,0 +1,52 @@
+# macOS & editors
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+.eggs/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Envs
+.venv/
+venv/
+env/
+*/.venv*/
+*/venv*/
+*/env*/
+
+# Build / dist
+build/
+dist/
+*.whl
+
+# Node
+node_modules/
+
+# Project data & artifacts that shouldn’t be in git
+nutrition_insights/**/*.zip
+nutrition_insights/**/*.dylib
+nutrition_insights/**/*.so
+nutrition_insights/**/*.bin
+nutrition_insights/**/*.pt
+nutrition_insights/**/*.onnx
+nutrition_insights/**/*.ckpt
+nutrition_insights/**/faiss.index
+nutrition_insights/**/index.faiss
+nutrition_insights/**/index.hnsw
+nutrition_insights/**/models/
+nutrition_insights/**/tmp/
+nutrition_insights/**/cache/
+
+# Large bundles
+*.zip
+*.tar
+*.tar.gz
+*.tgz
