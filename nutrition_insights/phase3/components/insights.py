@@ -6,10 +6,12 @@ import pandas as pd
 from textwrap import shorten
 from typing import List
 
+
 from services.summarizer import summarize_bullets
 
 
 @st.cache_data(show_spinner=False)
+
 def _pick_journal_rows(df: pd.DataFrame, max_items: int = 40) -> pd.DataFrame:
     """Keep only journals; prefer recent and with abstracts."""
     if df is None or df.empty:
@@ -19,7 +21,6 @@ def _pick_journal_rows(df: pd.DataFrame, max_items: int = 40) -> pd.DataFrame:
         d = d[d["source"].str.lower() == "journals"]
     if d.empty:
         return d
-
     # Light quality heuristic
     if "abstract" in d.columns:
         has_abs = d["abstract"].fillna("").str.len()
@@ -30,12 +31,45 @@ def _pick_journal_rows(df: pd.DataFrame, max_items: int = 40) -> pd.DataFrame:
     else:
         has_ttl = pd.Series([0] * len(d))
     d = d.assign(_q=(has_abs > 120).astype(int) + (has_ttl > 20).astype(int))
-
     if "date" in d.columns:
         d = d.sort_values(["_q", "date"], ascending=[False, False])
     else:
         d = d.sort_values(["_q"], ascending=False)
+    return d.head(max_items).reset_index(drop=True)
 
+
+# NEW: Buzz row picker for Reddit/Blogs
+@st.cache_data(show_spinner=False)
+def _pick_buzz_rows(df: pd.DataFrame, max_items: int = 40) -> pd.DataFrame:
+    """Keep only Reddit/Blog records; prefer recent and with content/title."""
+    if df is None or df.empty:
+        return pd.DataFrame()
+    d = df.copy()
+    # Accept both source and source_type
+    buzz_types = ["blog_article", "reddit_post", "reddit_comment"]
+    buzz_sources = ["blogs", "reddit"]
+    if "source_type" in d.columns:
+        d = d[d["source_type"].str.lower().isin(buzz_types)]
+    elif "source" in d.columns:
+        d = d[d["source"].str.lower().isin(buzz_sources)]
+    if d.empty:
+        return d
+    # Quality: prefer longer title or combined_text/content
+    if "combined_text" in d.columns:
+        has_txt = d["combined_text"].fillna("").str.len()
+    elif "content" in d.columns:
+        has_txt = d["content"].fillna("").str.len()
+    else:
+        has_txt = pd.Series([0] * len(d))
+    if "title" in d.columns:
+        has_ttl = d["title"].fillna("").str.len()
+    else:
+        has_ttl = pd.Series([0] * len(d))
+    d = d.assign(_q=(has_txt > 80).astype(int) + (has_ttl > 10).astype(int))
+    if "date" in d.columns:
+        d = d.sort_values(["_q", "date"], ascending=[False, False])
+    else:
+        d = d.sort_values(["_q"], ascending=False)
     return d.head(max_items).reset_index(drop=True)
 
 

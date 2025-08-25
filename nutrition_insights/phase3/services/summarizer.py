@@ -5,7 +5,10 @@ from typing import List, Optional
 import textwrap
 import pandas as pd
 
-from utils.ollama_client import chat_completion, ModelConfig
+from utils.gemini_client import chat_completion
+
+def get_gemini_response(prompt: str, system: str = None, timeout: int = 60) -> str:
+    return chat_completion(prompt, system=system, timeout=timeout)
 
 
 def _join_texts(texts: List[str], cap: int = 4000) -> str:
@@ -45,7 +48,7 @@ def _to_bullets(raw: str, n: int) -> List[str]:
     return out
 
 
-def summarize_bullets(texts: List[str], cfg: Optional[ModelConfig] = None, n: int = 5) -> List[str]:
+def summarize_bullets(texts: List[str], cfg: Optional[object] = None, n: int = 5) -> List[str]:
     """
     Generic bullet summarizer for any list of strings.
     """
@@ -64,7 +67,7 @@ def summarize_bullets(texts: List[str], cfg: Optional[ModelConfig] = None, n: in
     return _to_bullets(resp, n)
 
 
-def summarize_verified_findings(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n: int = 5) -> List[str]:
+def summarize_verified_findings(df: pd.DataFrame, cfg: Optional[object] = None, n: int = 5) -> List[str]:
     """
     Summarize journal (verified) findings.
     Expects df with columns: 'source' == 'journals', 'title', 'summary' or 'abstract'.
@@ -77,7 +80,7 @@ def summarize_verified_findings(df: pd.DataFrame, cfg: Optional[ModelConfig] = N
     return summarize_bullets(texts, cfg, n=n)
 
 
-def summarize_buzz(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n: int = 5) -> List[str]:
+def summarize_buzz(df: pd.DataFrame, cfg: Optional[object] = None, n: int = 5) -> List[str]:
     """
     Summarize community buzz from reddit + blogs.
     Expects df with 'source' in {'reddit','blogs'} and 'title'/'text' columns.
@@ -92,7 +95,7 @@ def summarize_buzz(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n: int =
     return summarize_bullets(texts, cfg, n=n)
 
 
-def summarize_investments(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n: int = 5) -> List[str]:
+def summarize_investments(df: pd.DataFrame, cfg: Optional[object] = None, n: int = 5) -> List[str]:
     """
     Business: short 'where to invest' bullets grounded on signals in df.
     """
@@ -110,7 +113,7 @@ def summarize_investments(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n
     return _to_bullets(resp, n)
 
 
-def summarize_improvements(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n: int = 5) -> List[str]:
+def summarize_improvements(df: pd.DataFrame, cfg: Optional[object] = None, n: int = 5) -> List[str]:
     """
     Business: product improvement areas from signals in df.
     """
@@ -127,7 +130,7 @@ def summarize_improvements(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, 
     return _to_bullets(resp, n)
 
 
-def summarize_preferences(df: pd.DataFrame, cfg: Optional[ModelConfig] = None, n: int = 5) -> List[str]:
+def summarize_preferences(df: pd.DataFrame, cfg: Optional[object] = None, n: int = 5) -> List[str]:
     """
     Business: customer preferences & market shifts.
     """

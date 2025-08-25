@@ -75,7 +75,7 @@ def render(df: pd.DataFrame, counts: SourceCounts, meta: Optional[Dict[str, Any]
             st.info("Running data scrappers (merge_scrapper.py)...")
             result = subprocess.run(["python", str(MERGE_PATH)], capture_output=True, text=True)
             if result.returncode == 0:
-                st.success("Data refreshed!")
+                st.success("Data refreshed! Please manually rerun the app or reload the page to see updated metrics.")
             else:
                 st.error(f"Scrapper failed: {result.stderr}")
         else:

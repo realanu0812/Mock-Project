@@ -5,7 +5,10 @@ import streamlit as st
 import pandas as pd
 
 from services.query_router import is_in_scope, build_context_snippets
-from utils.ollama_client import chat_completion
+from utils.gemini_client import chat_completion
+
+def get_gemini_response(prompt: str, system: str = None, timeout: int = 60) -> str:
+    return chat_completion(prompt, system=system, timeout=timeout)
 
 
 OUT_OF_SCOPE = (

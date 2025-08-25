@@ -88,7 +88,16 @@ def run_scraper(script_path: Path, since_iso: str | None):
     print(f"\n=== Running {script_path.relative_to(ROOT)} (cwd={ROOT}) ===")
     if since_iso:
         print(f"[INCREMENTAL] since={since_iso}")
-    subprocess.run(cmd, check=True, cwd=str(ROOT))
+
+    # Load .env and pass env vars to subprocess
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(ROOT.parent / ".env")
+    except Exception:
+        pass
+    import os
+    env = os.environ.copy()
+    subprocess.run(cmd, check=True, cwd=str(ROOT), env=env)
     return 1
 
 def find_or_recover(filename: str) -> Path | None:

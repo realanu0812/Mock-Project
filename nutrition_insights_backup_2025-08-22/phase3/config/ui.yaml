@@ -1,0 +1,22 @@
+# UI configuration for layout and component visibility
+
+theme:
+  primary_color: "#2c3e50"
+  secondary_color: "#18bc9c"
+  background_color: "#f4f6f7"
+  font_family: "Arial, sans-serif"
+
+layout:
+  show_header: true
+  show_overview: true
+  show_trending: true
+  show_insights: true
+  show_business: true
+  show_volume: true
+  show_chatbot: true
+  show_export: true
+
+defaults:
+  chart_type: "line"
+  date_range: "last_30_days"
+  refresh_interval_seconds: 60

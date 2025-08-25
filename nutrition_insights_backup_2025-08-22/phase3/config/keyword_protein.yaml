@@ -1,0 +1,245 @@
+# phase3/config/keywords_protein.yaml
+# Curated protein vocabulary used by:
+# - Trending topics (keyword frequency / co-occurrence)
+# - Query router (scope checks)
+# - Business highlights (bucketing hits)
+
+version: "1.0"
+
+core_terms:
+  - protein
+  - whey
+  - casein
+  - isolate
+  - concentrate
+  - hydrolysate
+  - micellar
+  - blend
+  - amino
+  - EAAs
+  - BCAAs
+  - leucine
+  - valine
+  - isoleucine
+  - collagen
+  - gelatin
+  - creatine  # sometimes co-mentioned with protein
+
+plant_sources:
+  - soy
+  - pea
+  - rice
+  - hemp
+  - pumpkin
+  - fava
+  - chickpea
+  - lentil
+  - mung
+
+dairy_terms:
+  - milk
+  - lactose
+  - lactase
+  - A2
+  - WPI
+  - WPC
+
+formats:
+  - powder
+  - shake
+  - bar
+  - RTD
+  - snack
+  - beverage
+  - dessert
+  - pudding
+
+use_cases:
+  - muscle
+  - recovery
+  - hypertrophy
+  - strength
+  - endurance
+  - fat loss
+  - satiety
+  - meal replacement
+  - breakfast
+  - preworkout
+  - postworkout
+  - nighttime
+  - before bed
+
+nutrition_quality:
+  - PDCAAS
+  - DIAAS
+  - bioavailability
+  - digestibility
+  - absorption
+  - completeness
+  - essential amino acids
+  - nitrogen balance
+
+additives_quality:
+  - sweetener
+  - sucralose
+  - stevia
+  - monk fruit
+  - acesulfame
+  - thickeners
+  - gums
+  - emulsifier
+  - carrageenan
+  - artificial
+  - natural flavors
+
+safety_regulatory:
+  - heavy metals
+  - lead
+  - cadmium
+  - arsenic
+  - contaminants
+  - banned substances
+  - NSF
+  - Informed Choice
+  - GRAS
+  - labeling
+  - compliance
+  - allergen
+  - cross-contamination
+
+digestive_tolerance:
+  - bloating
+  - gas
+  - cramps
+  - acne
+  - lactose intolerance
+  - FODMAP
+  - digestion
+  - gut
+  - microbiome
+  - reflux
+
+sustainability_ethics:
+  - sustainability
+  - carbon
+  - footprint
+  - regenerative
+  - grass-fed
+  - pasture
+  - animal welfare
+  - ethical
+  - eco-friendly
+  - recyclable
+  - compostable
+
+flavors_profile:
+  - chocolate
+  - vanilla
+  - strawberry
+  - cookies & cream
+  - banana
+  - coffee
+  - peanut butter
+  - caramel
+  - unflavored
+  - salted caramel
+
+pricing_promotions:
+  - price
+  - discount
+  - sale
+  - coupon
+  - value
+  - premium
+  - budget
+  - subscription
+  - bundle
+
+market_signals:
+  - demand
+  - trend
+  - market share
+  - growth
+  - launch
+  - reformulate
+  - innovation
+  - distribution
+  - retail
+  - DTC
+  - Amazon
+  - ratings
+  - reviews
+  - out of stock
+  - backorder
+
+claims_certifications:
+  - high-protein
+  - low sugar
+  - zero sugar
+  - low carb
+  - keto
+  - vegan
+  - vegetarian
+  - gluten-free
+  - soy-free
+  - dairy-free
+  - non-GMO
+  - organic
+  - grass-fed certified
+  - halal
+  - kosher
+
+business_opportunities:
+  - margin
+  - profitability
+  - cost of goods
+  - reformulation
+  - private label
+  - co-manufacturing
+  - capacity
+  - MOQ
+  - lead time
+
+# Terms we do NOT want in trending (too generic / adverbs / noise).
+stopwords:
+  - very
+  - really
+  - actually
+  - just
+  - like
+  - good
+  - bad
+  - better
+  - best
+  - more
+  - less
+  - most
+  - least
+  - great
+  - awesome
+  - amazing
+  - super
+  - nice
+  - cool
+  - thanks
+  - please
+  - help
+  - anyone
+  - question
+  - need
+  - today
+  - yesterday
+  - tomorrow
+
+# Pairs we want to highlight in co-occurrence heatmap
+highlight_pairs:
+  - ["protein", "muscle"]
+  - ["protein", "recovery"]
+  - ["whey", "lactose"]
+  - ["casein", "nighttime"]
+  - ["plant", "DIAAS"]
+  - ["collagen", "skin"]
+  - ["pea", "soy"]
+  - ["RTD", "convenience"]
+  - ["price", "value"]
+  - ["sustainability", "grass-fed"]

@@ -68,63 +68,43 @@ def _cooccurrence(df_tokens: pd.DataFrame, min_pair_count: int = 3) -> pd.DataFr
 
 
 def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
-    st.subheader("Volume & Relationships")
+    st.subheader("Monthly Post Volume by Source")
 
     d = _filter(df, source_filter, window_days)
+    # Remove any rows with year >= 2026 or after today (typo/invalid future data)
+    if "date" in d.columns:
+        d["date"] = pd.to_datetime(d["date"], utc=True, errors="coerce")
+        today = pd.Timestamp.utcnow().tz_convert("UTC")
+        d = d[(d["date"].dt.year < 2026) & (d["date"] <= today)]
     if d.empty:
         st.info("No data in the selected window or source.")
         return
 
-    # --- Volume over time (daily counts)
-    if "date" in d.columns and not d["date"].isna().all():
-        tdf = (
-            d[["date"]]
-            .assign(date=lambda x: pd.to_datetime(x["date"], utc=True).dt.tz_convert("UTC").dt.date)
-            .groupby("date")
-            .size()
-            .rename("count")
-            .reset_index()
-        )
-        fig_ts = time_series(tdf, x="date", y="count", title="Mentions per day")
-        st.plotly_chart(fig_ts, use_container_width=True)
+    # --- Monthly post volume for each source ---
+    if "date" in d.columns and "source" in d.columns:
+        d["date"] = pd.to_datetime(d["date"], utc=True, errors="coerce")
+        d = d.dropna(subset=["date", "source"])
+        d["month"] = d["date"].dt.to_period("M").dt.to_timestamp()
+        sources = ["reddit", "journals", "blogs"]
+        fig = None
+        import plotly.express as px
+        plot_df = d[d["source"].isin(sources)].groupby(["month", "source"]).size().reset_index(name="count")
+        fig = px.line(plot_df, x="month", y="count", color="source", markers=True,
+                     title="Monthly Post Volume by Source", template="plotly_white")
+        fig.update_layout(height=400, margin=dict(l=10, r=10, t=50, b=10))
+        st.plotly_chart(fig, use_container_width=True)
     else:
-        st.caption("No timestamp column available to plot volume.")
+        st.caption("No timestamp/source column available to plot monthly volume.")
 
-    # --- Co-occurrence heatmap & bubble
-    tok_df = _explode_tokens(d)
-    pair_df = _cooccurrence(tok_df, min_pair_count=2)
-    from utils.common import PROTEIN_WORDS
-    pair_df = pair_df[
-        pair_df["a"].isin(PROTEIN_WORDS) & pair_df["b"].isin(PROTEIN_WORDS)
-    ].reset_index(drop=True)
-
-    tabs = st.tabs(["Heatmap (Top 20 pairs)", "Bubble (Top 50 pairs)"])
-    with tabs[0]:
-        if pair_df.empty:
-            # Fallback: show bar chart of protein term frequencies
-            term_counts = {k: 0 for k in PROTEIN_WORDS}
-            for text in d["__text__"].dropna():
-                for k in PROTEIN_WORDS:
-                    if k in text.lower():
-                        term_counts[k] += 1
-            filtered_counts = {k: v for k, v in term_counts.items() if v > 0}
-            if filtered_counts:
-                st.subheader("Protein Term Frequency")
-                freq_df = pd.DataFrame(list(filtered_counts.items()), columns=["Term", "Count"])
-                st.bar_chart(freq_df.set_index("Term"))
-            else:
-                st.caption("No protein-related terms found in the data.")
-        else:
-            top = pair_df.head(20)
-            pivot = top.pivot(index="a", columns="b", values="count").fillna(0)
-            fig_hm = heatmap(pivot, x_labels=pivot.columns, y_labels=pivot.index, title="Keyword co-occurrence")
-            st.plotly_chart(fig_hm, use_container_width=True)
-
-    with tabs[1]:
-        if pair_df.empty:
-            st.caption("Not enough repeated token pairs to build a bubble chart.")
-        else:
-            top = pair_df.head(50).copy()
-            top["pair"] = top["a"] + " + " + top["b"]
-            fig_b = bubble(top, x="pair", y="count", size="count", title="Co-occurrence bubbles")
-            st.plotly_chart(fig_b, use_container_width=True)
+    # --- Word Cloud (protein keywords only) ---
+    from utils.wordcloud_utils import render_wordcloud
+    from utils.config_loader import protein_keywords
+    pkws = set([k.lower() for k in protein_keywords()])
+    # Only keep tokens that are protein keywords
+    def filter_text(text):
+        import re
+        words = re.findall(r"\w+", str(text).lower())
+        return " ".join([w for w in words if w in pkws])
+    d["_protein_text_"] = d["__text__"].apply(filter_text)
+    st.markdown("#### Protein Keyword Word Cloud")
+    render_wordcloud(d, text_col="_protein_text_", title="Protein Keyword Word Cloud")

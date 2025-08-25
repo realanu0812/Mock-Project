@@ -9690,5 +9690,525 @@
     "source": "journals",
     "is_verified": true,
     "text": "Head and Neck Squamous Cell Carcinoma (HNSCC) is the seventh most prevalent cancer worldwide and is classified as human papillomavirus (HPV) positive or negative. Substantial heterogeneity has been observed in the two groups, posing a significant clinical challenge. In the disease context, global transcriptional changes are likely driven by a few key genes that reflect the disease etiology more accurately compared to differentially expressed genes (DEGs). We implemented our network-based tool PathExt on 501 TCGA-HNSCC samples (64 HPV positive & 437 HPV negative) to characterize central genes in two subtypes, where in subtype 1, HPV-positive samples were considered as cases and negative as controls, and vice versa in subtype 2. We also identified DEGs and performed several analyses on multiple benchmarking datasets to compare the biology of central genes with DEGs. PathExt key genes performed better with respect to DEGs in both subtypes in recapitulating disease etiology. Gene ontology analysis using central genes revealed shared biological processes such as \"epithelial cell proliferation\" as well as subtype-specific processes (immune- and metabolic-related processes in subtype 1 and peptide-related processes in subtype 2). However, in the case of DEGs, no subtype-specific processes were seen. Additionally, PathExt central genes did better than DEGs on external validation datasets that were specific to HNSCC and included HNSCC-specific cancer driver genes, FDA-approved therapeutic targets, and pan-cancer tumor suppressor genes. Unlike DEGs, central genes exhibit significant expression in various cell types, enrichment for cancer hallmarks, and mutated protein systems. Central gene expression-based machine learning model shows better performance than DEGs in classifying responders/non-responders with 0.74 AUROC. Lastly, the top 10 potential therapeutic targets and drugs were proposed. Overall, we observed PathExt as a complementary approach to DEGs, characterizing common and HNSCC subtype-specific key genes associated with distinct HNSCC molecular subtypes."
+  },
+  {
+    "id": "pmid:40840920",
+    "pmid": "40840920",
+    "title": "Mechanism of Rhizoma Chuanxiong for the treatment of diabetic kidney disease based on network pharmacology.",
+    "date": "2025 Dec",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40840920/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Although\n\nMETHODS: Active compounds of\n\nRESULTS: The top 10 core targets were identified, namely PPARG, AKT1, EGFR, STAT3, CASP3, PPARA, ICAM1, PTGS2, SRC, and MMP9. Enrichment analysis revealed that the primary pathways involving these targets including prolactin signaling pathway, AGE-RAGE signaling pathway in diabetic complications, TNF signaling pathway, relaxin signaling pathway, VEGF signaling pathway, and FoxO signaling pathway. Molecular docking demonstrated that mandenol exhibited a strong binding affinity toward EGFR domain, and wallichilide displayed pronounced binding affinity toward AKT1, EGFR, STAT3, and PTGS2 domains. Additionally, myricanone and senkyunone also showed strong binding affinity for AKT1, EGFR, CASP3, STAT3, and PTGS2 domains.\n\nCONCLUSIONS: This study revealed the potential multi-component and multi-target mechanisms of"
+  },
+  {
+    "id": "pmid:40841648",
+    "pmid": "40841648",
+    "title": "Cisd2 delays atrial aging via a modulation of calcium homeostasis that mitigates atrial myopathy.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40841648/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Age-associated atrial myopathy results in structural remodeling and a disturbance of atrial conductance. Atrial myopathy often precedes atrial fibrillation (AF) and can facilitate AF progression. However, the molecular mechanism linking aging to atrial deterioration remains elusive. CDGSH iron-sulfur domain-containing protein 2 (CISD2) is a mammalian pro-longevity gene. We used Cisd2 knockout (Cisd2KO) and Cisd2 transgenic (Cisd2TG) mice to investigate pathophysiological mechanisms underlying age-related atrial myopathy. Four findings are pinpointed. Firstly, in both humans and mice, the level of atrial CISD2 declines during natural aging; this correlates with age-associated damage, namely degeneration of intercalated discs, mitochondria, sarcoplasmic reticulum (SR) and myofibrils. Secondly, in Cisd2KO and naturally aged wild-type mice, Cisd2 deficiency causes atrial electrical dysfunction and structural deterioration; conversely, sustained Cisd2 levels protect Cisd2TG mice against age-related atrial myopathy. Thirdly, Cisd2 plays a vital role in maintaining Ca²⁺ homeostasis in atrial cardiomyocytes. Cisd2 deficiency disrupts Ca²⁺ regulation, leading to elevated cytosolic Ca²⁺, reduced SR Ca²⁺, impaired store-operated calcium entry, and mitochondrial Ca²⁺ overload; these compromise mitochondrial function and attenuate antioxidant capability. Finally, transcriptomic analysis reveals that Cisd2 protects the atrium from metabolic reprogramming and preserves into old age a transcriptomic profile resembling a youthful pattern, thereby safeguarding the atrium from age-related injury. This study highlights Cisd2's crucial role in preventing atrial aging and underscores the therapeutic potential of targeting Cisd2 when combating age-associated atrial dysfunction, which may lead to the development of strategies for improving cardiac health in aging populations."
+  },
+  {
+    "id": "pmid:40841608",
+    "pmid": "40841608",
+    "title": "An Elongator mouse model of ALS spotlights TDP-43 in the motor neuron nucleolus.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40841608/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Dysfunction of Elongator is associated with amyotrophic lateral sclerosis (ALS). Here, we describe mouse models in which either Elongator subunit 1(Elp1) or subunit 3 (Elp3) is selectively ablated in alpha motor neurons of the spinal cord. These mice exhibit a progressive loss of motor strength and motor neuron degeneration. To interrogate the molecular mechanisms that contribute to motor neuron cell death in these mice, we examine multiple disease pathways, including the expression of TDP-43 whose cytoplasmic aggregation is associated with the human disease. Although TDP-43 is a well-characterized nuclear protein functioning in RNA metabolism and gene transcription, here we document TDP-43's robust presence in the nucleolus of wild-type motor neurons and its clearance from both the nucleus and the nucleolus of motor neurons in Elp conditional knockout mice. Thus, this study directly links dysfunction of Elongator with nucleolar disruption and TDP-43 clearing, two hallmark cellular pathologies of ALS."
+  },
+  {
+    "id": "pmid:40841439",
+    "pmid": "40841439",
+    "title": "Inulin supplementation improves some inflammatory indices, clinical outcomes, and quality of life in rheumatoid arthritis patients.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40841439/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Rheumatoid arthritis (RA) is a multifactorial autoimmune disease that causes joint dysfunction and is associated with changes in serum levels of some biomarkers. The present study investigated the effect of inulin supplementation on pain intensity, clinical outcomes, and quality of life in patients with RA.In a randomized, triple-blind, parallel clinical trial, 60 patients over 18 years of age with RA were randomly assigned to receive either 10 g of inulin or maltodextrin per day for 8 weeks. Erythrocyte sedimentation rate (ESR) and C-reactive protein (CRP) levels were assessed using biochemical kits at the beginning and end of the study. Clinical outcomes were also evaluated, including morning stiffness and pain intensity measured by the Visual Analog Scale (VAS), hand grip measured by a sphygmomanometer (Seca), disease activity assessed using the Disease Activity Score 28 (DAS-28), and overall quality of life determined by the Health Assessment Questionnaire (HAQ).The number of swollen joints, tender joints, pain intensity, and DAS-28 significantly decreased in both groups. However, hand grip, morning stiffness, ESR, CRP, and HAQ improved significantly only in the intervention group. After the intervention, in the intervention group compared to the control group, serum CRP levels significantly decreased (P = 0.02), while serum ESR levels showed no significant reduction (P = 0.45). The number of tender joints (P = 0.002), the number of swollen joints (P = 0.04), DAS-28, HAQ, morning stiffness, and hand grip strength (P = 0.02) significantly improved, but pain intensity did not change (P = 0.11).Inulin appears to benefit inflammatory status, disease activity, and clinical outcomes in patients with rheumatoid arthritis. Incorporating it into their treatment protocol could be valuable for managing their condition.Trial registration: Our study was approved in the Iranian Registry of Clinical Trials ( www.irct.ir ) on 10/5/2023, with the registration number IRCT20230506058098N1."
+  },
+  {
+    "id": "pmid:40840959",
+    "pmid": "40840959",
+    "title": "Plummer-Vinson syndrome in a postpolio patient: a rare intersection of neuromuscular and nutritional sequelae.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40840959/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "A woman in her 40s, with a history of childhood paralytic poliomyelitis, presented with progressive difficulty swallowing, fatigue and unintended weight loss. Due to her limited mobility and chronic tiredness, the diet gradually became restricted, lacking iron, vitamin B12, calcium and protein. She frequently skipped meals and avoided nutrient-dense foods. Clinical signs pointed to multinutrient deficiency, and laboratory results confirmed iron deficiency anaemia along with other deficiencies. Upper gastrointestinal endoscopy revealed a postcricoid oesophageal web, consistent with Plummer-Vinson syndrome (PVS). The web was successfully dilated, and she was started on targeted nutritional therapy, including iron, B12 and calcium supplementation. Her symptoms improved significantly over the following weeks, with better swallowing, energy and nutritional status. This case highlights a rare intersection of postpolio neuromuscular sequelae and nutritional deficiency as a contributing pathway to secondary PVS, reinforcing the need for thorough dietary assessment in patients with physical disability and dysphagia."
+  },
+  {
+    "id": "pmid:40839150",
+    "pmid": "40839150",
+    "title": "The TXNIP-mTOR-Autophagy axis in diabetic kidney disease: mechanistic insights and therapeutic implications.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40839150/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Diabetic kidney disease (DKD) remains a prevalent complication of diabetes mellitus and a leading cause of end-stage renal disease. A growing body of evidence highlights the central role of the thioredoxin-interacting protein (TXNIP)-mTOR-autophagy axis in the pathogenesis of DKD. Chronic hyperglycemia significantly induces TXNIP expression, triggering oxidative stress, inflammasome activation, and mitochondrial dysfunction in renal cells. TXNIP directly promotes activation of the mammalian target of rapamycin (mTOR) complex 1 (mTORC1), which consequently impairs autophagic flux, leading to accumulation of damaged organelles and proteins, cellular hypertrophy, and fibrosis. Restoration of autophagy via inhibition of TXNIP or mTOR signaling pathways alleviates these pathological changes in various DKD models. Specifically, genetic or pharmacological suppression of TXNIP attenuates oxidative injury, reduces inflammasome activation, and restores autophagic activity. Similarly, mTOR inhibitors such as rapamycin have demonstrated substantial renoprotective effects through reactivation of autophagy and reduction of renal fibrosis. Furthermore, combined targeting of TXNIP and mTOR presents a promising therapeutic strategy that may synergistically restore autophagic homeostasis with reduced side effects. This review synthesizes recent mechanistic insights into the interplay between TXNIP, mTOR signaling, and autophagy dysregulation in DKD and discusses potential therapeutic interventions. Ultimately, understanding and therapeutically targeting the TXNIP-mTOR-autophagy axis could offer new opportunities for effective clinical management of diabetic kidney disease."
+  },
+  {
+    "id": "pmid:40674448",
+    "pmid": "40674448",
+    "title": "Recent evolution of the developing human intestine affects metabolic and barrier functions.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40674448/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Diet, microbiota, and other exposures make the intestinal epithelium a nexus for evolutionary change; however, little is known about genomic changes associated with adaptation to a distinctly human environment. In this work, we interrogate the evolution of cell types in the developing human intestine by comparing tissue and organoids from humans, chimpanzees, and mice. We find that recent changes in primates are associated with immune barrier function and lipid and xenobiotic metabolism and that human-specific genetic features affect these functions. Enhancer assays, genetic deletion, and in silico mutagenesis resolve evolutionarily important enhancers of lactase ("
+  },
+  {
+    "id": "pmid:40581737",
+    "pmid": "40581737",
+    "title": "Novel missense variants in CFL2 affect F-actin depolymerisation and expand the disease spectrum of CFL2-related myopathy.",
+    "date": "2025 Aug 21",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40581737/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Cofilin-2, encoded by CFL2, is an actin-binding protein essential for regulating actin filament dynamics in skeletal muscle. Biallelic variants in CFL2 are associated with an ultra-rare, early-onset myopathy typically presenting as nemaline myopathy. Only 10 patients have been described to date from five unrelated families. Here, we describe two new cases from two unrelated families. The first proband presented clinically with rigid spine syndrome and a biopsy keeping with nemaline myopathy. The second proband presented with a relatively mild congenital myopathy which became rapidly progressive in the fourth decade, the muscle biopsy showed cytoplasmic bodies, internal nuclei and ringbinden. Exome and genome sequencing revealed three novel biallelic missense variants in CFL2, a homozygous c.115 T > G; p.(Cys39Gly) in the proband of Family 1, and bi-allelic heterozygous c.256G > A:(p.Asp86Asn), and c.283A > G (p.Lys95Glu) variants in the proband of Family 2. We characterised the effects of these substitutions using an in vitro F-actin depolymerisation assay and showed all three were associated with significantly reduced filamentous actin depolymerisation rates compared to the wildtype. Taken together, our findings are highly suggestive of a CFL2-related disease in these patients. Since CFL2-related myopathies are ultrarare, the application of ACMG/AMP guidelines and the diagnostic reportability of CFL2 variants identified in patients remains a challenge. The actin depolymerisation assay may be useful to elucidate the impact and pathogenicity of additional CFL2 variants and has the potential to guide variant classification in future."
+  },
+  {
+    "id": "pmid:40836335",
+    "pmid": "40836335",
+    "title": "Smooth muscle-specific expression of hydroxyindole O-methyltransferase reduces arterial injury-induced intimal hyperplasia.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40836335/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: The pineal gland produces melatonin to control circadian rhythm via the final enzyme in the serotonin pathway, hydroxyindole O-methyltransferase (HIOMT). Interestingly, HIOMT is expressed by certain non-pineal cells. The main catalytically active of the three human HIOMT (hHIOMT) isoforms in pineal cells is hHIOMT345 (345 amino acids), while hHIOMT298 (298 amino acids) is the most active isoform in fibroblasts, where it converts 5-hydroxytryptophan to 5-methoxytryptophan (5-MTP). We previously demonstrated that exogenous 5-MTP protects the arteries. Nevertheless, whether vascular smooth muscle cells (VSMCs) per se synthesize 5-MTP is unknown.\n\nMETHODS: We transfected primary wild-type VSMCs with different hHIOMT isoforms and treated them with inflammatory cytokines to examine hHIOMT's effects on p38 MAPK activation. Global and VSMC-specific hHIOMT transgenic mice were generated and subjected to an arterial injury model. Histological analysis was performed to evaluate intimal hyperplasia and expression of select tryptophan metabolites and their synthetic enzymes. We treated wild-type and transgenic VSMCs with interleukin-1 beta (IL-1β), with or without 5-MTP, to examine the levels of serotonin and aromatic L-amino acid decarboxylase (AADC). Serotonin's effects on VSMC functions were evaluated, and inhibitors of p38 MAPK and ERK1/2 were used to determine the signaling pathways. The effects of AADC on VSMCs were assessed by AADC knockdown or overexpression.\n\nRESULTS: Overexpression of the human full-length isoform of 373 amino acids (hHIOMT373) in VSMCs attenuated proinflammatory cytokine-induced p38 MAPK activation, similar to 5-MTP treatment. Global and VSMC-specific hHIOMT373 transgenic mice exhibited attenuated intimal hyperplasia following arterial injury. Intriguingly, the tryptophan metabolite serotonin and its synthetic enzyme AADC were reduced in transgenic arteries. In VSMCs, IL-1β increased AADC and serotonin levels that were mitigated by 5-MTP treatment or HIOMT overexpression via suppressing the p38 MAPK pathway. Interestingly, serotonin promoted VSMC proliferation and decreased VSMC marker levels through ERK1/2 activation. While AADC overexpression decreased VSMC contractile markers, AADC knockdown suppressed IL-1β-induced VSMC proliferation.\n\nCONCLUSIONS: Our results unveiled a unique function of HIOMT in vascular disease. In VSMCs, hHIOMT373 reprogrammed tryptophan metabolism to increase 5-MTP and decrease serotonin levels, thereby protecting against injury-induced intimal hyperplasia. Mechanistically, HIOMT-5-MTP suppressed AADC-serotonin induction through inhibiting p38 MAPK activation."
+  },
+  {
+    "id": "pmid:40836330",
+    "pmid": "40836330",
+    "title": "Anemia and malnutrition in geriatric hospitalized patients: a cross-sectional retrospective study.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40836330/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Nutritional factors contributing to anemia in older adults are in need of clarification. We investigated associations between nutritional biomarkers and the incidence of anemia.\n\nMETHODS: A cross-sectional study was conducted in two centers. Data were collected from patients living in long-term care hospitals. The Geriatric Nutritional Risk Index (GNRI) was applied to determine nutritional risk. Blood parameters were obtained from medical records. Anemics vs. non-anemics were assigned according to hemoglobin levels following the WHO guidelines. Multiple linear regression analysis were performed for statistical analysis.\n\nRESULTS: The sample consisted of N = 97 geriatric patients (mean age 84.9 years, 86% female). Anemic patients had a significantly lower GNRI (M = 90.6 ± 5.94; p =.007) than non-anemic patients (M = 94.7 ± 6.11). Serum albumin (p =.008), blood iron (p <.001), number of erythrocytes (p <.001), and the hematocrit value (p <.001) were also significantly lower in patients with anemia. Multiple linear regression showed that serum albumin concentration, in addition to the hematocrit, was the driving factor for hemoglobin concentration in anemic patients (p =.004; R²=0.77).\n\nCONCLUSION: The present study indicates that nutritional risk plays a substantial role in anemia development in older adults. These findings may be attributable to multifactorial metabolic pathways of macro- and micronutrients on blood hemoglobin concentration. Malnourished geriatric patients with anemia may benefit from a diet rich in protein and iron-rich foods."
+  },
+  {
+    "id": "pmid:40836306",
+    "pmid": "40836306",
+    "title": "Highly accurate prophage island detection with PIDE.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40836306/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "As important mobile elements in prokaryotes, prophages shape the genomic context of their hosts and regulate the structure of bacterial populations. However, it is challenging to precisely identify prophages through computational methods. Here, we introduce PIDE for identifying prophages from bacterial genomes or metagenome-assembled genomes. PIDE integrates a pre-trained protein language model and gene density clustering algorithm to distinguish prophages. Benchmarking with induced prophage sequencing datasets demonstrates that PIDE pinpoints prophages with precise boundaries. Applying PIDE to 4744 human gut representative genomes reveals 24,467 prophages with widespread functional capacity. PIDE is available at https://github.com/chyghy/PIDE , with model training code at https://zenodo.org/records/16457629 ."
+  },
+  {
+    "id": "pmid:40836295",
+    "pmid": "40836295",
+    "title": "Prognostic utility of the C-reactive protein-albumin-lymphocyte (CALLY) index in metastatic renal cell carcinoma.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40836295/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND AND OBJECTIVE: The CALLY index has been recognized as a prognostic biomarker across various malignancies; however, its prognostic utility in metastatic renal cell carcinoma (mRCC) has not been extensively characterized. This study aimed to elucidate the prognostic significance of the C-reactive protein-albumin-lymphocyte (CALLY) index in patients diagnosed with mRCC.\n\nMETHODS: In this retrospective multicenter study, patients with metastatic renal cell carcinoma were included. Demographic and disease-related data were collected. The CALLY index was calculated as follows: serum albumin level (g/dL) × absolute lymphocyte count (cells/µL)/C-reactive protein (CRP) (mg/dL) × 10\n\nRESULTS: A total of 95 patients were included in the present study. The prognostic cut-off value for the CALLY index was determined as 0.12. The median overall survival (OS) was 11.1 months (95% CI 6.7-15.4) in the CALLY index < 0.12 group, compared to 45.7 months (95% CI 31.6-59.8) in the CALLY index ≥ 0.12 group (p < 0.001). Similarly, the median progression-free survival (PFS) was 7.1 months (95% CI 4.5-13.2) in the CALLY index < 0.12 group and 33.1 months (95% CI 17.2-48.1) in the CALLY index ≥ 0.12 group (p < 0.001). In Cox regression analysis, a CALLY index < 0.12 was identified as an independent prognostic factor for shorter OS (HR: 0.41, 95% CI 0.22-0.76, p = 0.004) and PFS (HR: 0.40, 95% CI 0.23-0.69, p = 0.001).\n\nCONCLUSION: The CALLY index was identified as an independent prognostic biomarker in metastatic renal cell carcinoma. Prospective large-scale studies are needed to confirm its clinical utility."
+  },
+  {
+    "id": "pmid:40836073",
+    "pmid": "40836073",
+    "title": "A novel rapid rule-out protocol for acute chest pain using H-FABP point-of-care testing.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40836073/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Emergency department (ED) visits have gradually increased throughout recent years, contributing to the widespread problem of ED overcrowding. The purpose of this study was to develop a rapid rule-out strategy for patients with acute chest pain that integrates clinical characteristics and Heart-type fatty acid binding protein (H-FABP) to improve ED patient care. H-FABP point-of-care test results of 130 patients were integrated into a modified HEART score, with a score ≤ 3 points indicating rule-out of acute coronary syndrome (ACS). Diagnostic performance was assessed with comparative analyses between the Ex-ACS protocol, the conventional HEART score, and the European Society of Cardiology (ESC) 0/1-h algorithm. In this study cohort, eight patients (6.2%) were diagnosed with NSTEMI and none were misclassified as rule-out by the novel protocol. The Ex-ACS protocol ruled out ACS in 63 patients (48.4%) with a median time of 16 min, notably faster than the ESC 0/1-h algorithm (123 min). The Ex-ACS protocol demonstrated a sensitivity of 100% and a specificity of 51.6%, surpassing the traditional HEART score which exhibited a sensitivity of 100% and a specificity of 46.3%. The Ex-ACS Protocol offers a promising strategy for rapid ACS exclusion, potentially improving patient flow in EDs."
+  },
+  {
+    "id": "pmid:40835924",
+    "pmid": "40835924",
+    "title": "The protective effect of kaempferol on high glucose-stimulated renal tubular epithelial cells.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40835924/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: The oxidative stress and apoptosis of renal tubular epithelial play an important role in the progression of diabetic nephropathy. Blocking oxidative stress and apoptosis of renal tubular epithelial could be a novel therapeutic target for diabetic nephropathy. Kaempferol (KMP), a natural phytoestrogen and common dietary flavonoid, has various biological effects including anti-oxidation, anti-apoptosis and anti-inflammation. KMP has protective effect against oxidative stress-related diseases, such as ischemia-reperfusion induced myocardium injuries, osteoporosis, obesity and so on. In our research, we observed the influence of KMP on high glucose (HG) cultured HK-2 cells and explored its mechanisms from the aspect of oxidative stress and apoptosis.\n\nMETHODS: To find out the safety and effective concentration of KMP in our experiment, cell viability under different concentrations was detected using the MTS method. The protein and mRNA expression of SOD2 and catalase were detected by Western blot and Real-time PCR; the protein expression of Sirt3, Bax, Bcl-2, cleaved-caspase3, Akt, p-Akt, FoxO3a, p- FoxO3a were detected by Western blot; the ROS level in cellular was detected by cell flow cytometer.\n\nRESULTS: We found that HK-2 cells stimulated with both 10µM KMP and HG exhibited higher viability compared to those stimulated by HG only. Incubation with KMP could reverse the undesirable effects of HG on SOD2, catalase, cleaved caspase-3, Bax/Bcl-2 ratio and the generation of ROS. Furthermore, Western blot and Real-time PCR results showed that the expression levels of Sirt3, p-Akt/Akt ratio and p-FoxO3a/FoxO3a ratio were markedly increased in the KMP plus HG group compared to the HG group. Furthermore, downregulating Sirt3 expression in HK2 cells impairs the protective effect of KMP, leading to a reduction in HK2 cell viability and an elevation in ROS levels.\n\nCONCLUSION: In summary, KMP could alleviate HG-induced oxidative stress and apoptosis, and its cytoprotection is associated with Sirt3 expression and the activation of ROS-sensitive Akt/FoxO3a signaling pathway."
+  },
+  {
+    "id": "pmid:40835857",
+    "pmid": "40835857",
+    "title": "Symmetric dimethylarginine as a biomarker of renal impairment after a decade of follow-up.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40835857/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Chronic kidney disease (CKD) is characterized by a gradual and irreversible decline in renal function. Arginine derivatives like symmetric dimethylarginine (SDMA) and asymmetric dimethylarginine (ADMA) have been associated with the progression of renal disease in cross-sectional studies. This study aimed to investigate the longitudinal associations between arginine derivatives and renal function over time in a population-based cohort. Data were derived from the Study of Health in Pomerania-START (SHIP-START-0, n = 3100, mean age 49 years, women 51.3%). The 5-year follow-up included 2174 and the 10-year follow-up 1657 individuals. At baseline, serum concentrations of Arg, ADMA, SDMA and homoarginine were measured using liquid chromatography-tandem mass spectrometry, while renal parameters (creatinine and cystatin C) were quantified at baseline, 5- and 10-year follow-up. Three different statistical analyses (linear regression, logistic regression, analyses of covariance (ANCOVA)), were performed to investigate the longitudinal associations between baseline levels of Arg, ADMA, SMDA and homoarginine as exposure and renal function parameters as outcome. The results showed a significantly inverse longitudinal association between SDMA and renal function. Specifically, a one μmol/l greater SDMA was related to an odds ratio of 1.77 (95% confidence interval (CI) 1.41; 2.21) at 5-year follow-up and 1.43 (95% CI 1.11; 1.84) at 10-year follow-up for kidney dysfunction defined as estimated glomerular filtration rate less than 60 ml/min/1.73 m"
+  },
+  {
+    "id": "pmid:40835710",
+    "pmid": "40835710",
+    "title": "Intracristal space proteome mapping using super-resolution proximity labeling with isotope-coded probes.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40835710/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Proximity labeling with engineered ascorbate peroxidase (APEX) has been widely used to identify proteomes within various membrane-enclosed subcellular organelles. However, constructing protein distribution maps between two non-partitioned proximal spaces remains challenging with the current proximity labeling tools. Here, we introduce a proximity labeling approach using isotope-coded phenol probes for APEX labeling (ICAX) that enables the quantitative analysis of the spatial proteome at nanometer resolution between two distinctly localized APEX enzymes. Using this technique, we identify the spatial proteomic architecture of the mitochondrial intracristal space (ICS), which is not physically separated from the peripheral space. ICAX analysis further reveals unexpected dynamics of the mitochondrial spatiome under mitochondrial contact site and cristae organizing system (MICOS) complex inhibition and mitochondrial uncoupling, respectively. Overall, these findings highlight the importance of ICS for mitochondrial quality control under dynamic stress conditions."
+  },
+  {
+    "id": "pmid:40834023",
+    "pmid": "40834023",
+    "title": "Common molecular links and therapeutic insights between type 2 diabetes and kidney cancer.",
+    "date": "2025",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40834023/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "INTRODUCTION: Type 2 diabetes (T2D) is considered as a risk factor for kidney cancer (KC). However, so far, there is no study in the literature that has explored genetic factors through which T2D drive the development and progression of KC. Therefore, this study attempted to explore T2D- and KC-causing shared key genes (sKGs) for revealing shared pathogenesis and therapeutic drugs as their common treatments.\n\nMETHODS: The integrated bioinformatics and system biology approaches were utilized in this study. The statistical LIMMA approach was used based web-tool GEO2R to detect differentially expressed genes (DEGs) through transcriptomics analysis. Then upregulated and downregulated DEGs for T2D and KC were combined to obtained shared DEGs (sDEGs) between T2D and KC. The STRING database was used to construct the protein-protein interaction (PPI) network of sDEGs. Then Cytohubba plugin-in Cytoscape were used in the PPI network to disclose the sKGs based on different topological measures. The RegNetwork database was used in NetworkAnalyst to analyze co-regulatory networks of sKGs with transcription factors (TFs) and micro-RNAs to identify key TFs and miRNAs as the transcriptional and post-transcriptional regulators of sKGs, respectively. AutoDock Vina is a tool used for molecular docking. ADME/T properties were 24 assessed using pkCSM and SwissADME.\n\nRESULTS: At first, 74 shared DEGs (sDEGs) were identified that can distinguish both KC and T2D patients from control samples. Through protein-protein interaction (PPI) network analysis, top-ranked 6 sDEGs (CD74, TFRC, CREB1, MCL1, SCARB1 and JUN) were detected as the sKGs that drive both KC and T2D development and progression. The most common sKG 'CD74' is associated with key pathways, such as NF-κB signaling transduction, apoptotic processes, B cell proliferation. Differential expression patterns of sKGs validated by independent datasets of NCBI database for T2D and TCGA and GTEx databases for KC. Furthermore, sKGs were found to be significant at several CpG sites in DNA methylation studies. Regulatory network analysis identified three TFs proteins (SMAD5, ATF1 and NR2F1) and two miRNAs (hsa-mir-1-3p and hsa-mir-34a-5p) as the regulators of sKGs. The enrichment analysis of sKGs with KEGG-pathways and Gene Ontology (GO) terms revealed some crucial shared pathogenetic mechanisms (sPM) between two diseases. Finally, sKGs-guided four potential therapeutic drug molecules (Imatinib, Pazopanib hydrochloride, Sorafenib and Glibenclamide) were recommended as the common therapies for KC with T2D.\n\nCONCLUSION: The results of this study may be useful resources for the diagnosis and therapy of KC with the co-existence of T2D."
+  },
+  {
+    "id": "pmid:40833626",
+    "pmid": "40833626",
+    "title": "MY-1 promotes angiogenesis in the ischemic hindlimbs by regulating the stability of CDC42 via PSMD14.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40833626/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Critical limb ischemia (CLI) is a refractory peripheral artery disease characterized by tissue ischemia, presenting significant therapeutic challenges. Current surgical revascularization treatments are limited by indications, complications, and other constraints, making the identification of novel therapeutic strategies an important objective for CLI management. In this study, we designed and synthesized a novel short peptide, named MY-1, and developed a GelMA/MY-1 hydrogel sustained-release system for local application in a mouse hindlimb ischemia model. This system significantly promoted blood flow reperfusion and muscle tissue repair in the ischemic region. In vitro experiments revealed that MY-1 promoted the formation of filopodia in endothelial cells, accelerating cell migration and confirming the critical role of CDC42 in this process. Importantly, we found that MY-1 regulates the stability of CDC42, driving endothelial cell dynamics. Building on this, we identified PSMD14 as a novel upstream target influencing CDC42 stability. Silencing PSMD14 impaired filopodia formation, migration ability, and CDC42 stability in endothelial cells, and MY-1 could not reverse these effects. This indicates the potential of MY-1 in regulating deubiquitinase activity in angiogenesis."
+  },
+  {
+    "id": "pmid:40833453",
+    "pmid": "40833453",
+    "title": "Associations between adherence to Japanese food guide spinning top and nutrient density, climate impacts, and monetary cost: findings from the Saitama Prefecture Nutrition Survey 2017.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40833453/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "PURPOSE: To examine the associations between adherence to food-based dietary guidelines in Japan (Japanese Food Guide Spinning Top [JFGST]), considering food choices, specifically animal protein consumption pattern, and nutrient density, climate impact, and monetary costs.\n\nMETHODS: The study used data from the 2017 Saitama Prefecture Nutrition Survey. A total of 479 participants (206 men and 273 women), aged 30-65 years from Saitama Prefecture, Japan, were analyzed. They were selected based on their completion of a self-administered questionnaire and a two-day dietary record showing plausible energy intake (those showing implausible energy intake were excluded). Adherence to the JFGST (original and modified scores incorporating white-to-red meat ratio), Nutrient-Rich Food index (NRF) 9.3, greenhouse gas emissions (GHGE), and monetary costs were calculated from the dietary records. Multiple linear regressions were performed to examine the relationships between the JFGST scores, NRF9.3, GHGE, and monetary costs.\n\nRESULTS: Higher JFGST scores were associated with higher NRF9.3. No score showed a significant association with GHGE or monetary costs in men. In women, both scores were associated with higher GHGE and monetary costs; the association with GHGE was weaker with the modified score. After adjusting for energy intake, these significant associations disappeared.\n\nCONCLUSIONS: Nutrient density increased with higher JFGST compliance in both sexes; however, GHGE showed a positive association only in women. The impact of considering animal protein consumption pattern on GHGE and monetary costs is limited. Further examination of specific food choices is necessary to improve the Japanese Food Guide and consider cost and climate impact."
+  },
+  {
+    "id": "pmid:40832852",
+    "pmid": "40832852",
+    "title": "Interventions for preventing falls in older people in care facilities.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40832852/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "RATIONALE: Falls in care facilities are common events, causing considerable morbidity and mortality for older people. This is an update of a review on interventions in care facilities and hospitals first published in 2010 and updated in 2012 and 2018 on interventions in care facilities and hospitals. This review has now been split into separate reviews for each setting.\n\nOBJECTIVES: To assess the benefits and harms of interventions designed to reduce the incidence of falls in older people in care facilities.\n\nSEARCH METHODS: We searched the Cochrane Central Register of Controlled Trials (CENTRAL), MEDLINE, Embase, CINAHL, and two trial registers to 10 May 2024 and used reference checking, citation searching, and contact with authors to identify eligible trials and records.\n\nELIGIBILITY CRITERIA: We included randomised controlled trials (RCTs) of any intervention for preventing falls in older people (aged over 65 years) in care facilities with any comparator. We excluded trials conducted in places of residence that do not provide residential health-related care or rehabilitative services. We excluded trials where falls were recorded as adverse events of the intervention and those recruiting participants post-stroke or living with Parkinson's disease.\n\nOUTCOMES: Critical outcomes were rate of falls (number of falls per unit time) and number of fallers (risk of experiencing one or more falls). Important outcomes were risk of fracture, adverse events, and economic outcomes.\n\nRISK OF BIAS: We assessed risk of bias in the included studies against nine items (seven items from Cochrane's RoB 1 tool, plus method of ascertaining falls and baseline imbalance).\n\nSYNTHESIS METHODS: Two review authors independently performed study selection and data analysis. We calculated rate ratios (RaR) with 95% confidence intervals (CIs) for rate of falls and risk ratios (RRs) with 95% CIs for outcomes of risk of falling (number of people falling) and risk of fracture. We adjusted for clustering if not undertaken by trial authors. We grouped the results of trials with comparable interventions and participant characteristics, and pooled results where appropriate using the generic inverse variance method in RevMan. We conducted subgroup analyses according to intervention type, cognitive status, and informed by a qualitative comparative analysis where more than 10 trials were pooled and heterogeneity was high. Where pooling was precluded by the nature of the data, we presented trial data in tables for illustrative purposes or reported these in the text, or both. We used GRADE to assess the certainty of evidence. GRADE ratings of risk of bias were based on sensitivity analyses excluding trials at high risk of bias.\n\nINCLUDED STUDIES: We included 104 trials, 56 individually randomised and 48 cluster-randomised trials, with 68,964 participants. Thirty-three trials (27,492 participants) were added in this update. We assessed most of the included trials as at high risk of bias, often related to lack of blinding, which was rarely feasible for many intervention types. The certainty of evidence for the critical outcomes of falls ranged from high to very low. We have reported the critical outcomes for the main comparisons here. Regarding our important outcomes, adverse events were poorly reported, and the certainty of evidence was very low for all interventions; we have not reported these data here. The important outcomes of risk of fracture and cost-effectiveness are only reported here when the certainty of the evidence was stronger than very low.\n\nSYNTHESIS OF RESULTS: Multifactorial interventions. Overall, multifactorial interventions (i.e. two or more categories of intervention delivered based on individual risk profile) probably have little or no effect on the rate of falls (RaR 0.87, 95% CI 0.68 to 1.12; I² = 89%; 12 trials; 4843 participants; moderate-certainty evidence), but probably reduce the risk of falling (RR 0.91, 95% CI 0.83 to 1.00; I² = 19%; 11 trials; 4557 participants; moderate-certainty evidence). Multifactorial interventions may be cost-effective in reducing falls (GBP 20,889 per quality-adjusted life year, UK health and social care perspective; 1 trial; 1657 participants; low-certainty evidence). A subgroup analysis informed by qualitative comparative analysis indicated that multifactorial interventions delivered in a tailored manner according to resident individual circumstances (e.g. living with dementia) with facility staff engagement have greater effects (P < 0.001) than those not delivered in this manner, and probably result in a large reduction in rate of falls (RaR 0.61, 95% CI 0.54 to 0.69; I² = 0%; 7 trials; 3553 participants; moderate-certainty evidence) and risk of falling (RR 0.81, 95% CI 0.71 to 0.92; I² = 0%; 5 trials; 2993 participants; moderate-certainty evidence). All trials included assessment of environmental and personal risk factors (including medication optimisation and assessment of need for assistive aids) and exercise interventions. Exercise. As a single intervention, exercise was compared with usual care in 28 trials. At the end of the intervention period, active exercise probably reduces the rate of falls (RaR 0.68, 95% CI 0.51 to 0.91; I²= 84%; 14 trials; 2215 participants; moderate-certainty evidence) and risk of falling (RR 0.86, 95% CI 0.75 to 1.00; I² = 37%; 13 trials; 2408 participants; moderate-certainty evidence), but may have little or no effect on risk of any fracture (RR 1.01, 95% CI 0.58 to 1.78; 3 trials; 927 participants; low-certainty evidence). After a period of post-intervention follow-up, if active exercise is not sustained there is no effect on rate of falls (RaR 1.02, 95% CI 0.78 to 1.32; I² = 64%; 7 trials; 1354 participants; high-certainty evidence) and probably no effect on risk of falling (RR 1.06, 95% CI 0.92 to 1.23; I² = 17%; 7 trials; 1443 participants; moderate-certainty evidence). Active exercise may be cost-effective in reducing falls (AUD 18 per fall avoided, Australian health service perspective; 1 trial; 221 participants; low-certainty evidence). A subgroup analysis based on level of cognition indicated that active exercise may reduce the risk of falling in residents with cognitive impairment (RR 0.72, 95% CI 0.57 to 0.91; 4 trials; 451 participants; low-certainty evidence). Medication optimisation. As a single intervention, medication optimisation interventions were diverse, but overall may make little or no difference to rate of falls (RaR 0.92, 95% CI 0.75 to 1.13; I² = 86%; 13 trials; 4314 participants; low-certainty evidence) and probably make little or no difference to risk of falling (RR 0.96, 95% CI 0.89 to 1.03; I² = 0%; 12 trials; 6209 participants; moderate-certainty evidence). We are uncertain of the impact of medication review/deprescribing on falls outcomes (RaR 0.94, 95% CI 0.76 to 1.18; I² = 86%; 12 trials; 4125 participants; very low-certainty evidence; RR 0.90, 95% CI 0.80 to 1.01; I² = 0%; 9 trials; 1934 participants; very low-certainty evidence). Medication review/deprescribing as a single intervention may not be cost-effective (intervention had higher costs and falls, UK National Health Service and care home perspective; 1 trial; 826 participants; low-certainty evidence). Vitamin D supplementation. Vitamin D supplementation (with or without calcium supplementation, alone or within a multivitamin) probably reduces the rate of falls (RaR 0.63, 95% CI 0.46 to 0.86; I² = 72%; 5 trials; 4603 participants; moderate-certainty evidence) but probably makes little or no difference to the risk of falling (RR 0.99, 95% CI 0.90 to 1.08; I² = 12%; 6 trials; 5186 participants; moderate-certainty evidence). The population in these trials had low vitamin D levels. Nutrition: dairy food supplementation. Increasing servings of dairy to residents through dietitian assistance with menu design to enhance protein and calcium through provision of dairy foods may decrease the risk of falling and fractures from falls (RR 0.89, 95% CI 0.79 to 1.00; RR fracture 0.67, 95% CI 0.48 to 0.93; 1 trial; 7195 participants; low-certainty evidence).\n\nAUTHORS' CONCLUSIONS: Multifactorial interventions implemented with facility staff engagement and tailored intervention delivery according to individual residents' circumstances probably reduce the rate of falls and risk of falling and may be cost-effective. Regarding single interventions, exercise probably reduces the rate of falls and the risk of falling, but if exercise is not sustained it has no ongoing effect on the rate of falls and probably no effect on the risk of falling. Active exercise may reduce the risk of falling in residents with cognitive impairment and may be cost-effective. Medication optimisation interventions were diverse overall and may make little or no difference to the rate of falls and probably little or no difference to the risk of falling. We are very uncertain of the effectiveness of medication review/deprescribing as a single intervention at reducing falls. Vitamin D supplementation probably reduces the rate of falls but probably makes little or no difference to the risk of falling. Addressing nutrition, increasing servings of dairy through dietitian assistance with menu design may decrease the risk of falling and risk of fractures.\n\nFUNDING: The Australian National Health and Medical Research Council provides salary support for authors through the Centre of Research Excellence for Prevention of Falls Injuries (Dyer, Suen, and Kwok) and Medical Research Future Fund (Dyer and Suen). Dylan Kneale is supported in part by ARC North Thames and the National Institute for Health Care Research ARC North Thames.\n\nREGISTRATION: Protocol (2023): Open Science Framework osf.io/y2nra Original review (2010): doi: 10.1002/14651858.CD005465.pub2 Review update (2012): doi: 10.1002/14651858.CD005465.pub3 Review update (2018): doi: 10.1002/14651858.CD005465.pub4."
+  },
+  {
+    "id": "pmid:40830770",
+    "pmid": "40830770",
+    "title": "Incomplete Kawasaki disease presenting primarily with cough: a case report and brief literature review.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40830770/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Kawasaki disease (KD) is an acute systemic vasculitis predominantly affecting children under 5 years of age. To prevent the development of cardiac aneurysms and their associated adverse outcomes, such as coronary artery dissection with subsequent bleeding, early recognition and treatment are of utmost importance. The classic early symptoms of KD include fever, conjunctival congestion, cracked lips, and others. However, these symptoms are not exclusive to KD and can also be observed in a variety of infectious diseases. Peeling of the skin on the hands, feet, fingers, and around the anus typically becomes evident around ten days after the onset of the disease or even later. Once complications occur, treatment may be ineffective. Hence, early diagnosis and timely treatment are essential to control disease progression, prevent further exacerbation of complications, and promote rapid lesion recovery.\n\nCASE PRESENTATION: A 3-year-old boy initially presented solely with sever cough symptoms, followed by fever, which are typical manifestations of a respiratory illness. Additionally, conjunctival hemorrhage developed during the course of the illness. Laboratory tests showed significant elevation in erythrocyte sedimentation rate (ESR) and C-reactive protein (CRP). Despite anti-infective treatment with ceftriaxone, the condition did not improve. The clinical presentation and laboratory findings were consistent with a diagnosis of incomplete Kawasaki disease (IKD). Immediately after treatment with intravenous immunoglobulin (IVIG) and aspirin, the patient's fever and cough symptoms subsided within the next two days. Cardiac ultrasonography at the time of discharge indicated that the coronary artery had healed. At the 1-month and 3-month follow-ups, the patient was in good general health.\n\nCONCLUSIONS: It is uncommon for a patient with Kawasaki disease (KD) to initially present with a severe cough as the predominant symptom, especially in the absence of other classic clinical features and with poor response to anti-infective therapy. Therefore, in such cases, clinicians should maintain a high index of suspicion for incomplete Kawasaki disease (IKD) and promptly conduct coronary artery evaluations to avoid delays in diagnosis and treatment."
+  },
+  {
+    "id": "pmid:40790889",
+    "pmid": "40790889",
+    "title": "Prussian Blue Nanozymes Attenuate Hepatic Fibrogenesis by Disrupting the Oxidative-Inflammatory-Fibrotic Network.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40790889/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Hepatic fibrosis, a progressive pathological condition driven by oxidative stress, chronic inflammation, and hepatic stellate cell (HSC) activation, represents a critical unmet medical need with a current lack of effective therapeutic interventions. Herein, we present Prussian blue (PB) nanozymes as an innovative multifunctional nanotherapeutic platform engineered to simultaneously disrupt the pathogenic triad driving fibrogenesis. These PB nanozymes exhibited a well-defined crystalline structure with pronounced multifunctional enzymatic cascade activities, demonstrating peroxidase-, superoxide dismutase-, and catalase-like catalytic competencies, along with hydroxyl radical scavenging efficiency of 70 ± 5%."
+  },
+  {
+    "id": "pmid:40788075",
+    "pmid": "40788075",
+    "title": "Peptide Profiling of Young Gouda Holland Cheese and Its Digests Obtained by In-Vitro-Simulated Gastrointestinal Digestion.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40788075/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Ripened cheeses contain bioactive peptides that are released from caseins by enzymatic hydrolysis during fermentation and ripening. However, the physiological relevance of these peptides depends on their stability during gastrointestinal digestion and their bioavailability. This study aimed to assess the impact of digestion on the peptide profile of the young Gouda Holland cheese. Using liquid chromatography coupled to electrospray ionization-tandem mass spectrometry (LC-ESI-MS/MS), we monitored the peptide profile changes during in vitro simulated gastrointestinal digestion. In total, 54 peptide sequences were identified in cheese (20), gastric (20), and intestinal digests (24). Ten peptides were derived from α"
+  },
+  {
+    "id": "pmid:40787781",
+    "pmid": "40787781",
+    "title": "Design, Synthesis, and Preclinical Evaluation of (89)Zr/(177)Lu-FAPI-Tz: A Potential Theranostic Pair Targeting Fibroblast Activation Protein.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40787781/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Fibroblast activation protein (FAP)-targeted radioligands have recently emerged as attractive tumor imaging agents. However, the therapeutic applicability of most FAP ligands has been impeded by their short tumor retention. In this study, a tetrazine (Tz)-modified FAPI derivant DOTA-FAPI-Tz was synthesized and radiolabeled with"
+  },
+  {
+    "id": "pmid:40771080",
+    "pmid": "40771080",
+    "title": "A multifunctional sericin hydrogel system fabricated via one-step acetic acid induction for wound management.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40771080/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Hydrogels, particularly multifunctional hydrogels, are attractive wound dressings due to their abundant exudate absorption performance, oxygen permeability, comparable moisturizing ability, and performance of locally delivering therapeutic drugs. However, it is challenging to achieve hydrogels that possess mechanical properties comparable to those of human skin and can uniformly load hydrophobic drugs as multifunctional dressings for wound management. Herein, we report a simple and rapid fabrication of hydrogels by directly inducing sericin protein gelation using acetic acid. The resulting sericin hydrogels demonstrated high transparency and excellent physicochemical and biological properties, making them promising wound dressing materials. Notably, this sericin hydrogel system could encapsulate hydrophobic drugs during gelation, thus overcoming the limitation of inadequate amounts and non-uniform loading of therapeutic drugs in hydrogels. Further, we selectively encapsulated hydrophobic ciprofloxacin (CIP) into the sericin hydrogel to obtain a multifunctional wound dressing with favorable antimicrobial activity. The obtained CIP-loaded sericin hydrogel exhibited antibacterial activity against both Gram-positive bacteria ("
+  },
+  {
+    "id": "pmid:40768260",
+    "pmid": "40768260",
+    "title": "Development of \"Furan Warhead\"-Equipped Antagonistic Nanobodies for Covalent Cross-Linking to the Epidermal Growth Factor Receptor.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40768260/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Covalent therapeutics have gained attention in drug design, as they have the potential to result in enhanced potency and prolonged duration of action. However, the safety concerns associated with off-target effects have long been a serious hurdle for covalent drug design. Proximity-enabled covalent bond formation combined with the use of caged warheads offers an attractive strategy in this context. We here report on the use of the proximity-dependent furan-oxidation-based cross-linking and a previously reported antagonistic nanobody (EgA1), to design new nanobodies that covalently trap the soluble fraction of the epidermal growth factor receptor (sEGFR). The furan-containing EgA1 nanobodies were validated for binding to serum(s)EGFR via biomolecular binding assays. Their singlet oxygen-induced cross-linking behavior toward the sEGFR protein was evaluated"
+  },
+  {
+    "id": "pmid:40675932",
+    "pmid": "40675932",
+    "title": "Enzymatic Cellular Nanoparticles Deliver Payloads across Mucosal Barriers.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40675932/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Patient preferred routes of administration for therapeutics and prophylactics, such as via oral delivery and inhalation, require penetration through mucosal barriers to achieve effective bioavailability. The mucus layer is composed of glycosylated mucin proteins and serves as a robust natural defense against pathogens but also significantly impedes the delivery of medicinal agents. To overcome this barrier, we developed an innovative virus-mimicking enzymatic cellular nanoparticle designed to enhance mucopenetration. Inspired by the influenza A virus, we genetically engineered the neuraminidase protein onto the surface of mammalian cell membrane, which was subsequently used to coat mRNA-loaded lipid nanoparticle cores. This enabled the resulting nanoparticles to cleave sialic acid residues within the mucus matrix, thereby facilitating mucopenetration. In vitro studies demonstrated that these enzyme-coated cellular nanoparticles effectively traversed an artificial mucus layer, significantly enhancing mRNA delivery to underlying epithelial cells. Furthermore, in vivo experiments in a murine model showed improved lung expression of the mRNA payload after intratracheal administration. By harnessing the power of viral biomimicry, this work unveils exciting possibilities for overcoming mucosal barriers."
+  },
+  {
+    "id": "pmid:40634257",
+    "pmid": "40634257",
+    "title": "Synthetic Redox-Responsive Nanocomplexes Facilitate Spatially Controlled mRNA Release and Tumor-Selective Expression.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40634257/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "The refinement of dynamic molecular mechanisms regulating mRNA release kinetics represents a critical frontier in advancing the synthetic mRNA delivery systems. This study details the synthesis of an intriguing ROS-responsive cationic block copolymer (pM-pBD) via reversible addition-fragmentation chain transfer (RAFT) polymerization, employing biocompatible 2-methacryloyloxyethyl phosphorylcholine (MPC) and charge-reversible (2-acryloyl)ethyl(boronic acid benzyl)diethylammonium bromide (BD) as monomeric precursors. The synthesized copolymer facilitates electrostatic-driven self-assembly with anionic mRNA. Mechanistically, the pBD block exhibits ROS-mediated charge transition, enabling stimulus-dependent molecular decomposition and promoting mRNA payload liberation, thereby establishing spatial regulation of translational activity. Furthermore, intracellular ROS modulation experiments revealed that systemic ascorbic acid administration selectively enriches reactive oxygen species within tumor microenvironments. This redox microenvironment significantly amplifies pM-pBD nanocomplex-mediated mRNA expression by an order of magnitude across multiple carcinogenic cell lines, validating the ROS-responsive characteristics of our rationally designed delivery platform. In vivo studies demonstrated the highest mRNA expression levels in tumors when aided by ascorbic acid adjuvants, despite lower tumor accumulation of mRNA compared to renal and hepatic sequestration post intravenous administration of the pM-pBD nanocomplex. This spatial expression pattern correlates with ascorbic acid-mediated intratumoral ROS accumulation, which promotes cargo release and subsequent protein synthesis of approximately 6.4-fold enhancement. Our approach, integrating redox-responsive polymer design with organ-specific pharmacological modulation, signifies a transformative advancement in targeted nucleic acid delivery. By merging stimulus-responsive materials science with tumor microenvironment biology, this methodology provides a foundation for spatially controlled mRNA expression, presenting an innovative strategy for precision oncology applications."
+  },
+  {
+    "id": "pmid:40633113",
+    "pmid": "40633113",
+    "title": "Clickable and Degradable Polycarbonate Vehicles for mRNA Delivery.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40633113/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "The development of nucleic acid therapies has enabled access to treatments for several diseases previously thought untreatable, yet effective and safe delivery remains a hurdle. The benefit of synthetic vehicles lies in their modularity in optimizing performance and safety. Herein, we present a novel biodegradable polycarbonate alternative to the nondegradable synthetic and viral vectors often utilized in commercial gene therapies. This PC system leverages ring-opening polymerization of a cyclic carbonate to produce polymers (∼20 kDa) with pendant allyl groups compatible with thiol-ene click post-polymerization modification. The derivatization of the parent polymer enables a direct comparison of the pendant groups without molecular weight and dispersity variables. These pendants include 2-(dimethylamino)ethanethiol hydrochloride (DMA) as the cation and one of three hydrophilic modifiers: mercaptopropanol (OH), thioglycolic acid (COOH), and methoxy polyethylene glycol thiol (PEG), which modulate cellular membrane interaction, charge density, and sheathing properties. This family of vehicles forms stable polymer-mRNA complexes (polyplexes), confirmed via dynamic light scattering and gel electrophoresis."
+  },
+  {
+    "id": "pmid:40539266",
+    "pmid": "40539266",
+    "title": "Hub biomarkers and their clinical relevance in glycometabolic disorders: A comprehensive bioinformatics and machine learning approach.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40539266/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Gluconeogenesis is a critical metabolic pathway for maintaining glucose homeostasis, and its dysregulation can lead to glycometabolic disorders. This study aimed to identify hub biomarkers of these disorders to provide a theoretical foundation for enhancing diagnosis and treatment.\n\nMETHODS: Gene expression profiles from liver tissues of three well-characterized gluconeogenesis mouse models were analyzed to identify commonly differentially expressed genes (DEGs). Weighted gene co-expression network analysis (WGCNA), machine learning techniques, and diagnostic tests on transcriptome data from publicly available datasets of type 2 diabetes mellitus (T2DM) patients were employed to assess the clinical relevance of these DEGs. Subsequently, we identified hub biomarkers associated with gluconeogenesis-related glycometabolic disorders, investigated potential correlations with immune cell types, and validated expression using quantitative polymerase chain reaction in the mouse models.\n\nRESULTS: Only a few common DEGs were observed in gluconeogenesis-related glycometabolic disorders across different contributing factors. However, these DEGs were consistently associated with cytokine regulation and oxidative stress (OS). Enrichment analysis highlighted significant alterations in terms related to cytokines and OS. Importantly, osteomodulin ( OMD ), apolipoprotein A4 ( APOA4 ), and insulin like growth factor binding protein 6 ( IGFBP6 ) were identified with potential clinical significance in T2DM patients. These genes demonstrated robust diagnostic performance in T2DM cohorts and were positively correlated with resting dendritic cells.\n\nCONCLUSIONS: Gluconeogenesis-related glycometabolic disorders exhibit considerable heterogeneity, yet changes in cytokine regulation and OS are universally present. OMD , APOA4 , and IGFBP6  may serve as hub biomarkers for gluconeogenesis-related glycometabolic disorders."
+  },
+  {
+    "id": "pmid:40527596",
+    "pmid": "40527596",
+    "title": "The γ-Actin with pathogenic variants of sites on actin-binding proteins caused earlier onset and more malignant progressive hearing loss.",
+    "date": "2025 Aug 20",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40527596/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: The γ-actin protein, encoded by the\n\nMETHODS: We identified a novel missense variant, c.981C>G (p.Ile327Met; I327M), in a Chinese family with hereditary HL through whole exome sequencing. Functional analyses were performed to assess\n\nRESULTS: The I327M variant resulted in significantly reduced\n\nCONCLUSION: The c.981C>G (p.Ile327Met) variant contributes to HL pathogenesis through dual mechanisms involving impaired gene expression and filament destabilisation. This study highlights the clinical relevance of variant location relative to ABP binding regions and provides new insights into genotype-phenotype relationships in"
+  },
+  {
+    "id": "pmid:40851007",
+    "pmid": "40851007",
+    "title": "From initial suspicion to accurate diagnosis: unmasking rabies in a case of suspected Guillain-Barre syndrome.",
+    "date": "2025 Aug 25",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40851007/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Rabies is a fatal viral infection with clinical presentation that can mimic other neurological disorders, such as Guillain-Barre Syndrome (GBS). Both conditions can present in early stages with same signs, including muscle weakness and paralysis, leading to diagnostic confusion. In this case report, we present a patient residing in Palestine who was initially diagnosed with GBS but was later found to have rabies. Early diagnosis of rabies is important because once clinical symptoms appear, the disease almost fatal. This case highlights the importance of increased awareness and consideration of rabies in differential diagnoses, especially in areas where the disease is endemic.\n\nCASE PRESENTATION: We describe an 8-year-old male patient presenting with bilateral lower limb weakness, areflexia, urinary incontinence, and progressive respiratory decline, leading to intubation and mechanical ventilation. A lumbar puncture indicated elevated protein and zero cells, Brain and spinal MRI revealed enhancement of the cauda equina roots consistent with GBS. Despite treatment with intravenous immunoglobulin (IVIG), his condition worsened. Rabies was suspected after a history of a stray dog scratch two months prior and a nuchal biopsy confirmed the diagnosis. The patient's condition worsened, and he developed seizures, heart block, and cardiorespiratory arrest, leading to death on hospital day 17.\n\nCONCLUSION: This case emphasizes the need to include rabies in the differential diagnosis for patients with rapidly worsening neurological symptoms, especially in endemic areas. Early detection of rabies is crucial as its progression is rapid and fatal, highlighting the importance of early intervention and post-exposure prophylaxis for individuals at risk."
+  },
+  {
+    "id": "pmid:40851002",
+    "pmid": "40851002",
+    "title": "Ketogenic diet ameliorates MASLD via balancing mitochondrial dynamics and improving mitochondrial dysfunction.",
+    "date": "2025 Aug 25",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40851002/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND & AIMS: Ketogenic diet (KD) is recognized as an effective lifestyle intervention for managing metabolic dysfunction-associated steatotic liver disease (MASLD). This research aimed to assess the impact of KD on metabolic parameters in MASLD mice and elucidate the underlying mechanism.\n\nMETHODS: High-fat diet (HFD)-induced MASLD mice were subjected to KD for 2 weeks. Researchers measured hepatic fat, plasma Alanine Aminotransferase (ALT), and Aspartate Aminotransferase (AST) levels to assess metabolic changes. Hepatic mitochondrial dynamics were examined using transmission electron microscopy and Western blot. Mitochondrial functions were evaluated through Quantitative Polymerase Chain Reaction (qPCR) and measurement of ATP content. In vitro, HepG2 cells were treated with palmitate (PA), β-hydroxybutyric acid (β-OHB), and/or the mitochondrial fusion inhibitor MFI8 to study mitochondrial morphology, function, and lipid deposition.\n\nRESULTS: KD feeding partially improved the MASLD phenotype and reduced Fission 1 protein (Fis1) and Dynamin-related protein 1 (Drp1) levels in the livers of MASLD mice. Additionally, KD ameliorated HFD-stimulated mitochondrial dysfunctions, as evidenced by elevated ATP levels and upregulation of key genes responsible for fatty-acid-oxidation. β-OHB mitigated PA-stimulated mitochondrial dysfunction and fission in HepG2 cells. Furthermore, β-OHB attenuated PA-stimulated lipid deposition, with this effect being counteracted by MFI8.\n\nCONCLUSIONS: Our study suggests that a 2-week KD partially alleviates lipid deposition, restores mitochondrial dynamics balance, and improves mitochondrial dysfunctions in the livers of MASLD mice."
+  },
+  {
+    "id": "pmid:40851020",
+    "pmid": "40851020",
+    "title": "Network toxicology reveals glyphosate mechanisms in kidney injury and cancer​​.",
+    "date": "2025 Aug 24",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40851020/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Molecular mechanisms underlying glyphosate-induced nephrotoxicity and carcinogenicity were investigated through integrated network toxicology, molecular docking, and dynamics simulations. Screening identified 47 potential glyphosate targets; intersection analysis yielded 20 kidney injury and 31 kidney cancer shared targets. Protein-protein interaction networks highlighted matrix metalloproteinases (MMP9, MMP2, MMP8, MMP3) and PLG as topological hubs. Pathway enrichment revealed significant alterations in extracellular matrix reorganization and nitrogen metabolism. Molecular modeling demonstrated stable glyphosate binding within catalytic domains of MMPs (affinities: -5.03 to - 6.29 kcal/mol), with dynamics simulations confirming persistent complex formation over 100 ns. Results indicate MMP-mediated dysregulation of structural homeostasis, alongside metabolic pathway perturbation, as contributory factors in glyphosate-associated renal pathology. The prominence of MMPs across target networks and functional analyses suggests their role as molecular conduits for glyphosate toxicity."
+  },
+  {
+    "id": "pmid:40850951",
+    "pmid": "40850951",
+    "title": "Association between C-reactive protein-triglyceride glucose index and Future cardiovascular disease risk in a population with cardiovascular-Kidney-metabolic syndrome stage 0-3.",
+    "date": "2025 Aug 24",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40850951/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Cardiovascular-Kidney-Metabolic (CKM) syndrome, a concept recently introduced by the American Heart Association (AHA), emphasizes the intricate relationships among metabolic, renal, and cardiovascular diseases. The C-reactive protein-triglyceride-glucose index (CTI) has been proposed as an effective biomarker for insulin resistance (IR) and inflammation. Although there is substantial evidence demonstrating an association between the CTI and cardiovascular disease (CVD), its precise role in individuals with CKM syndrome stage 0-3 remains unclear. This prospective cohort study analysed data from China Health and Retirement Longitudinal Study (CHARLS), with a follow-up period of 10 years. The exposure variable was CTI at baseline, which was calculated as a combination of triglyceride (TG), fasting blood glucose (FBG), and C-reactive protein (CRP). The primary endpoint was the CVD. Cox proportional hazards regression and restricted cubic spline (RCS) analysis were conducted to examine the association between CTI and CVD risk. This study included 7,711 participants (52.38% female; mean age, 59.01 ± 9.37 years). An elevated CTI was significantly associated with a greater risk of developing CVD. Specifically, after fully adjusting for potential confounders, each one-unit increase in the CTI was associated with a 16% increase in CVD risk (hazard ratio [HR] = 1.16; 95% confidence interval [CI]: 1.06-1.27). Compared with participants in the lowest CTI group, those in the highest CTI group had a 42% greater CVD risk (HR = 1.42; 95% CI: 1.20-1.68). RCS analysis revealed a nonlinear association between CTI and the CVD risk among individuals with CKM syndrome stage 0-3 (overall P < 0.001; nonlinearity P = 0.01). This study revealed a positive association between CTI and CVD risk among individuals with CKM syndrome stages 0-3, suggesting that CTI may serve as a practical tool for CVD risk stratification in this population."
+  },
+  {
+    "id": "pmid:40850948",
+    "pmid": "40850948",
+    "title": "Revolutionizing cancer treatment with Halomonas Aquamarina L-Glutaminase: insights from in vitro and computational studies.",
+    "date": "2025 Aug 24",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40850948/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Bacterial L-glutaminase (L-GLS) has emerged as a potential therapeutic target in cancer treatment by disrupting glutamine-dependent metabolic pathways in tumor cells. This study focused on isolating and characterizing L-GLS-producing marine bacteria from Mediterranean seawater for preliminary therapeutic evaluation. Halomonas aquamarina HBIM1 was identified as the most efficient isolate through comprehensive phenotypic, genotypic, and enzymatic screening. The enzyme was successfully purified, achieving a specific activity of 748.35 U/mg with 3.39-fold purification. SDS-PAGE analysis confirmed high purity with a single 66 kDa protein band. Kinetic characterization revealed optimal activity at pH 8 and 50 °C, with strong substrate affinity (Km = 0.198 mM⁻¹). Preliminary in vitro cytotoxicity screening demonstrated selective antiproliferative effects on HepG2 liver cancer cells (IC50 = 33.98 µg/ml) compared to normal WI-38 cells (IC50 = 93.43 µg/ml), yielding a 2.75-fold selectivity index. Molecular docking analysis identified tannic acid and 6-diazo-5-oxo-L-norleucine as selective inhibitors of bacterial L-GLS, with tannic acid showing the highest binding affinity (-12.25 kcal/mol) and 5-fold selectivity over human L-GLS, suggesting potential for combination therapy strategies. These proof-of-concept findings indicate the preliminary anticancer potential of Halomonas-derived L-GLS and computational support for selective inhibitor development. However, comprehensive preclinical validation, including in vivo efficacy studies, toxicological evaluation, and pharmacological profiling, is essential to establish therapeutic viability and safety before clinical consideration."
+  },
+  {
+    "id": "pmid:40849565",
+    "pmid": "40849565",
+    "title": "Aging associated immunosenescence in rheumatoid arthritis identified by machine learning and single cell profiling.",
+    "date": "2025 Aug 23",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40849565/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Rheumatoid arthritis (RA) is increasingly prevalent among older adults, who often experience more severe symptoms and face significant treatment challenges. This study aims to identify specific genes associated with aging in RA and to analyze their immune infiltration using machine learning techniques. We sourced senescent genes from the HARG database and utilized three RA patient datasets obtained from the GEO database. Differential analysis revealed 50 age-related differentially expressed genes (ARDEGs) that intersected with senescent genes. Hub genes were identified through protein-protein interaction (PPI) network analysis as well as Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analyses. Machine learning methods, including LASSO regression, random forest (RF), and support vector machine recursive feature elimination (SVM-RFE), were employed to extract feature genes. Single-sample gene set enrichment analysis (ssGSEA) quantified immune cell infiltration, revealing 242 up-regulated and 176 down-regulated differentially expressed genes (DEGs). Notably, high levels of effector memory CD8 T cells and macrophages were found to be associated with robust immune responses. This study successfully identified four biomarkers related to aging in RA, suggesting that STAT1 may serve as a viable therapeutic target. These findings have the potential to enhance treatment strategies and improve patient outcomes while providing valuable insights into immune cell subpopulations in RA."
+  },
+  {
+    "id": "pmid:40849563",
+    "pmid": "40849563",
+    "title": "Role of branched chain amino acid metabolism on aging.",
+    "date": "2025 Aug 23",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40849563/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Aging is a complex biochemical phenomenon that considerably impacts both individual health and societal dynamics. Recent researches have emphasized the essential function of metabolism in the processes of aging and longevity. Metabolites-chemical byproducts produced by the host organism and its symbiotic partners, including the microbiota, are generated through numerous metabolic pathways. In the last fifteen years, major progress has been made in elucidating the metabolism of BCAAs and the detailed molecular mechanisms that connect BCAAs homeostasis to the aging process. The growing body of literature presents a comprehensive view of the tissue- and disease-specific regulatory mechanisms governing BCAAs and their activation of various molecular pathways. These pathways link fluctuations in BCAA levels to the onset and progression of age-related diseases. This review seeks to consolidate current knowledge on the factors influencing BCAA levels and their metabolic pathways. It further aims to elucidate the molecular mechanisms linking dysregulated BCAA homeostasis to age-related diseases, evaluate epidemiological evidence correlating BCAAs with various cardiovascular conditions, and identify gaps in current understanding that warrant further investigation."
+  },
+  {
+    "id": "pmid:40848087",
+    "pmid": "40848087",
+    "title": "Segatella intestinalis sp. nov., and Parabacteroides caeci sp. nov., novel potential probiotics from the human gut microbiome.",
+    "date": "2025 Aug 23",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40848087/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Two bacterial strains, B2-R-102"
+  },
+  {
+    "id": "pmid:40847375",
+    "pmid": "40847375",
+    "title": "Research progress of mRNA vaccines for infectious diseases.",
+    "date": "2025 Aug 23",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40847375/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "mRNA vaccines for infectious diseases prevent diseases by stimulating the body to produce specific immune responses through mRNA molecules encoding pathogenic proteins. Compared to traditional vaccines (e.g., inactivated, live attenuated, subunit, recombinant protein and viral vectors), mRNA vaccines offer several advantages including high safety, potent efficacy, scalable large-scale production, and cost-effectiveness. mRNA vaccines have demonstrated significant potential in combating infectious diseases since their inception. In particular, during the 2019 Coronavirus Disease (COVID-19) pandemic, the mRNA vaccines delivered with lipid nanoparticles (LNPs) have been developed by BioNTech and Moderna, their exceptional protective efficacy and extensive clinical application further proved the rapid responsiveness of mRNA vaccines in addressing emerging infectious diseases. This success has brought mRNA vaccines back into the spotlight of the scientific community. This article reviews the molecular biological basis, delivery systems, and immune mechanisms of mRNA vaccines, as well as the progress of research and clinical trials related to mRNA vaccines targeting the COVID-19 virus, influenza virus, rabies virus, Zika virus, human immunodeficiency virus, and Mycobacterium tuberculosis (M.tb), while also discussing the current challenges faced in the application of mRNA vaccines. These discussions provide a theoretical foundation and practical guidance for the future development of mRNA vaccines targeting bacterial infectious diseases such as tuberculosis (TB)."
+  },
+  {
+    "id": "pmid:40847413",
+    "pmid": "40847413",
+    "title": "Long-term cardiometabolic and bone health consequences of ketogenic diet in children with refractory epilepsy.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40847413/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Ketogenic diet (KD) is a well-tolerated and efficacious therapy for refractory epilepsy (RE). While numerous mild short-term side effects have been reported, long-term cardiometabolic and bone heath consequences of KD need more advanced work-up and were not fully evaluated especially in children. So, we aimed to evaluate cardiac, vascular, metabolic, bone health and growth consequences in children with RE receiving KD for more than 2 years compared to those receiving antiepileptic drugs (AEDs ) without any dietary interference.\n\nMETHODES: Fifty-six children following KD for at least 2 years, 27 classic KD and 29 modified atkins diet (MAD), were recruited in addition to 40 children with RE maintained on multiple AEDs. Lipid profile values, atherogenic indices, serum selenium binding protein 1, and anthropometric measurements were measured for all participants. Additionally, echocardiography, electrocardiography, carotid ultrasonography and DEXA scan were performed.\n\nRESULTS: Atherogenic index of plasma (AIP) was high in all groups with no significant correlation with carotid intima-media thickness. Although no cardiac complications were documented, Bone mineral density (BMD) was significantly reduced in all groups. Castelli risk index II and ambulation were the significant predictors for reduced BMD in KD groups in contrast to AIP in AEDs group. Stunted growth was most prevalent in MAD group 44.8% while wasting was highest in AEDs group 40%.\n\nCONCLUSIONS: KD did not show additional risk regarding metabolic, cardiovascular, BMD and growth side effects compared to AEDs only. Therefore, KD remains a relatively safe dietary therapy for RE, yet close monitoring is still recommended."
+  },
+  {
+    "id": "pmid:40847103",
+    "pmid": "40847103",
+    "title": "Effects of enteral nutrition protocols on nutritional indicators and prognosis in neurological ICU patients: a randomized controlled trial.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40847103/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "This study investigates the effects of adding whey protein powder and Bifidobacterium quadruplex live bacterial tablets to enteral nutrition on nutritional indicators, complications, and prognosis in neurological ICU patients. Between April 2022 and December 2023, 100 patients requiring enteral nutrition in our hospital's Neurology ICU were randomly assigned to four groups (25 each): EN1 (enteral nutrition only), EN2 (enteral nutrition + Bifidobacterium), EN3 (enteral nutrition + Bifidobacterium + whey protein), and EN4 (enteral nutrition + whey protein). Nutritional indicators (albumin, total protein, prealbumin), complication rates (diarrhea, constipation, gastric issues), prognosis indicators (hospital stay, ventilator use, lung infections, antibiotic use), and APACHE II scores were compared. This study has been approved by the Ethics Committee of the Affiliated Hospital of Zunyi Medical University, NO: KLL-2021-112. We confirm that all experiments were performed in accordance with relevant guidelines and regulations. After 7 days, EN3 and EN4 groups showed significantly improved nutritional indicators compared to EN1, with EN3 outperforming EN2. Diarrhea and gastric mucosal bleeding were less frequent in EN2 and EN3 compared to EN1 and EN4. APACHE II scores improved significantly in EN3 and EN4 post-treatment. EN3 had the lowest pulmonary infection rate and reduced antibiotic use, but hospitalization time differences were not significant across groups. Metabolic indicators showed no significant differences between groups. Supplementing enteral nutrition with whey protein powder and Bifidobacterium quadruplex improves nutritional status, reduces gastrointestinal complications, and enhances prognosis in critically ill neurological patients. Trial registration: ChiCTR2300079322, (30/12/2023); Website where it was obtained: https://www.chictr.org.cn/bin/home."
+  },
+  {
+    "id": "pmid:40846749",
+    "pmid": "40846749",
+    "title": "Constructing a predictive model for acute mastitis in lactating women based on machine learning.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40846749/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Acute lactational mastitis is a frequently occurring complication for lactating women, exerting a certain degree of influence on their physical condition, breastfeeding, mental health, and daily life. The etiology of this disease is complex, and the early symptoms lack typicality. Delayed diagnosis often occurs, which further progresses to abscess or more severe infections, adversely affecting the therapeutic effect and eventually leading to a prolonged recovery process and triggering other complications. Nevertheless, currently, the research regarding the risk factors of acute mastitis that occurs during lactation remains unfinished. This study employed a retrospective case-control study approach and collected relevant data from 369 patients with acute mastitis and 447 healthy controls. The involved data covered indicators such as age, parity, history of breast surgery, etc. By using machine learning (ML) algorithms (Logistic Regression (LR), Naive Bayes (NB), XGBoost, Multilayer Perceptron (MLP)) to train and validate the above data, it aimed to construct a predictive model of the risk factors for the occurrence of acute mastitis in lactating women, and simultaneously analyzed the other influences and effects of these factors on acute mastitis. The ML model demonstrated high accuracy in differentiating patients with acute mastitis from non-patients. We evaluated twelve indicators, namely age, primiparity, history of breast surgery, cracked, external breast trauma, puerperium, gestational diabetes, C-reactive protein (CRP), procalcitonin (PCT), neutrophils (NE), white blood cells (WBC), and abnormal nipple discharge, to determine their influence on the occurrence of acute mastitis in lactating women. Prediction models were established using four different ML algorithms. Through analysis, when comparing the four distinct ML models on the test set, the MLP model performed optimally across various evaluation metrics, including the highest area under the receiver operating characteristic (ROC) curve (AUROC) (0.898), sensitivity (0.820), test specificity (0.863), and F1 score (0.849), with an accuracy of 0.840. Decision Curve Analysis (DCA) indicates that within the majority of threshold ranges, the MLP can achieve the highest net benefit. Among these twelve indicators, five are significantly related to the occurrence of acute mastitis, namely age, cracked, CRP, NE, and WBC. We have successfully developed a prediction model for acute lactational mastitis and identified five key indicators closely related to its occurrence. This study effectively predicts the occurrence of acute lactational mastitis and provides a reference for the timely implementation of targeted clinical interventions as well as accurate diagnosis and treatment."
+  },
+  {
+    "id": "pmid:40846700",
+    "pmid": "40846700",
+    "title": "Multivariate protein landscape of host response in hospitalised patients with suspected infection in the emergency department.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40846700/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Suspected infection requiring hospitalisation has highly heterogenous presentation. Yet, variances in host response and its implications are largely unknown. In this multicentre cohort of 3802 individual patients presenting to the Emergency Department (ED) with suspected infection requiring hospitalisation, we apply uniform manifold approximation and projections and K-means clustering to 29 plasma proteins to identify biologically discrete host response clusters. In this work, we first describe two large clusters, called \"Dysregulated\" and \"Undifferentiated\", with abnormal protein concentrations and adverse outcomes in the former. Through further clustering, we identify 4 sub-clusters in the Dysregulated cluster, each with discrete biological signatures, clinical correlates, and outcomes. Clusters 3 and 4 are characterised by renal impairment and viral infections respectively. Clusters 5 and 6 are associated with bacterial culture positivity, with the former consistent with an immunosuppressed signature and worse outcomes, and the latter with gram-negative bacteria, higher IL-6 and IL-8, and better outcomes despite higher vasopressor use. These clusters are a biologically driven approach to characterising acute suspected infection and may lead to more targeted therapeutics."
+  },
+  {
+    "id": "pmid:40845001",
+    "pmid": "40845001",
+    "title": "Investigating the Trichosanthis Pericarpium - Trichosanthis Radix herbal pair's role in alleviating COPD through gut microbiota function, metabolomics analysis and cell validation experiment.",
+    "date": "2025",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40845001/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "The herbal pair of Trichosanthis Pericarpium - Trichosanthis Radix (TP-TR) is derived from the classic prescription Bei-Mu-Gua-Lou-San in Yixue Xinwu, which is commonly used to treat lung heat and cough. Both originate from Trichosanthes kirilowii Maxim, a medicinal plant known for its effects to clear heat, dissolve phlegm, promote salivation, and relieve dryness. However, the compatibility, pharmacological synergy and gut-lung axis regulation mechanisms of TP-TR remain unclear. This study innovatively explores the therapeutic effects and underlying mechanisms of TP-TR in COPD through microbiome and amino acid metabolism. A COPD rat model was established to evaluate the efficacy of TP-TR. The gut microbiota was analyzed with 16S rRNA sequencing, while the metabolites in serum and lung were analyzed by UPLC-MS/MS. Functional prediction of the microbiome and differential metabolite analysis were performed using KEGG/SMP. The LPS, CSE - induced cell model was used to validate the impact of TP-TR and its active components on amino acid metabolism. The results demonstrated that TP-TR significantly improved pulmonary function, alleviated inflammation, modulated gut microbiota composition (e.g., Lactobacillus, g_ Novosphingobium), and regulated metabolic disturbances in COPD rats. Notably, amino acid metabolic pathways were consistently enriched across microbiota function prediction and untargeted metabolomic analyses of serum and lung. Targeted metabolomics further confirmed alterations in amino acid levels. Moreover, TP-TR, along with cucurbitacin B, cynaroside, glutamine, guanine, and apigenin induced alterations in the amino acid content of model cells. These findings reveal a novel mechanism by which TP-TR ameliorates COPD through gut microbiota regulation and amino acid metabolism modulation along the gut-lung axis."
+  },
+  {
+    "id": "pmid:40844988",
+    "pmid": "40844988",
+    "title": "Nucleated red blood cell count as a novel predictive biomarker for acute kidney injury and prognosis in patients with acute pancreatitis: A retrospective cohort study.",
+    "date": "2025",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40844988/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "OBJECTIVES: Nucleated red blood cells (NRBCs) have been reported to correlate to poor prognosis in critically ill patients. This study aimed to identify the role of NRBC count in early diagnosis of acute kidney injury (AKI) and prediction of poor prognosis in patients with acute pancreatitis (AP).\n\nMETHODS: This retrospective cohort study enrolled AP patients who were admitted to our hospital from January 1, 2020 to January 1, 2024. Demographic data, NRBC count, laboratory indicators, and outcomes were recorded. Binary logistic regression analysis was used to identify independent biomarkers for AKI diagnosis and prognosis of AP. Receiver operating characteristic (ROC) curves, net reclassification index (NRI) and integrated discrimination improvement (IDI) were used to evaluate the predictive value of NRBC count. Kaplan-Meier curves were generated to compare survival rate between different groups.\n\nRESULTS: A total of 486 patients with AP were included in this study. Patients with NRBCs in their peripheral blood were classified into the NRBC (+) group (n = 190), and those without NRBCs in their peripheral blood were classified into the NRBC (-) group (n = 296). Patients in the NRBC (+) group had a higher AKI incidence (29.5% vs 3.0%, p < 0.001) and poor prognosis rate (12.7% vs 1.0%, p < 0.001) than patients in the NRBC (-) group. Binary logistic regression analysis showed that NRBC count was significantly associated with AKI incidence (OR = 3601.361, p < 0.05) and poor prognosis (OR = 204.434, p < 0.05) in AP patients. Area under the ROC curve (AUC) was 0.830 for NRBC count predicting AKI (cutoff value: 0/L) and 0.867 for NRBC count predicting poor prognosis in AP patients (cutoff value: 0.015 × 109/L). Kaplan-Meier survival analysis demonstrated that patients with NRBC count > 0.015 × 109/L (χ² = 85.09, p < 0.001) exhibited significantly lower survival rates during the 30-day follow-up period. NRBC count offered predictive performance comparable to procalcitonin (PCT) and outperformed C-reactive protein (CRP).\n\nCONCLUSION: NRBC count serves as a valuable predictive biomarker for both AKI incidence and poor prognosis in patients with AP."
+  },
+  {
+    "id": "pmid:40844976",
+    "pmid": "40844976",
+    "title": "Raman spectroscopy identified fingernail compositional differences between sexes and age-related changes but not handedness or fingers in a healthy cohort.",
+    "date": "2025",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40844976/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "BACKGROUND: Nail properties and appearances can indicate a person's underlying systemic diseases. Raman spectroscopy is an established laboratory technique and has been applied to nails, identifying spectral differences between healthy individuals and patient populations.\n\nOBJECTIVE: We aim to explore the importance of potential spectral or chemical variations in nails between sexes, age groups, hands, and fingers.\n\nMETHODS: Twenty male and twenty female participants without known musculoskeletal or dermatological diseases donated nail clippings from each finger. The clippings were cleaned, and Raman spectra collected and analysed using a standardised protocol.\n\nRESULTS: In total 2000 spectra were collected. Females have higher intensities of disulphide, protein, and lipid bands, particularly in their 40s, than males. Age-related changes were prominent in female nails, especially in sulphur-related bands. No significant differences were observed between nails from the left and right hands or among different fingers.\n\nLIMITATIONS: We did not control other factors such as diet, medication, or different occupation or sports participation.\n\nCONCLUSION: This is the first study to use Raman spectroscopy to compare nail composition across different ages and sexes in healthy adults. The findings provide a strong basis for further studies on nails at the population level for screening or monitoring diseases."
+  },
+  {
+    "id": "pmid:40844720",
+    "pmid": "40844720",
+    "title": "Cellular and molecular functions of long noncoding RNAs in testis, aging and diseases.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40844720/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Reproductive aging is an emerging global health concern, projected to become the third most significant health issue in the near future, according to the World Health Organization. This complex process is driven by molecular and cellular changes, including alterations in DNA, RNA, and protein expression. Among non-coding RNAs (ncRNAs), long non-coding RNAs (lncRNAs) have been increasingly recognized for their regulatory roles in spermatogenesis and their potential contributions to aging and testicular diseases. This review examines the functions of lncRNAs in testicular biology, focusing on their gene-regulatory roles, isoform diversity, subcellular localization, and interactions with key molecular components. While research has historically prioritized protein-coding genes, the extensive ncRNA landscape suggests a broader regulatory network influencing reproductive health. Many testis-specific lncRNAs exhibit conserved sequences, modular structures, and repeat-rich elements, which contribute to their functional significance. Dysregulation of these lncRNAs has been implicated in pathological conditions such as testicular cancer, highlighting their potential as biomarkers and therapeutic targets. Understanding the dynamic roles of lncRNAs in testicular function, aging, and disease is essential for advancing reproductive medicine. This study provides insights into the complex interplay between lncRNAs and reproductive aging, emphasizing their significance in testis-specific processes and associated disorders."
+  },
+  {
+    "id": "pmid:40791091",
+    "pmid": "40791091",
+    "title": "Universal Nanopore Sensor for Amplification-Free and Label-Free Detection of Molecular Biomarkers.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40791091/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Molecular diagnostics of biomarkers derived from tissues and bodily fluids are developing into a cornerstone of medical testing and potentially the foundation of a personalized medicine approach. Therefore, there is a need for universal biosensors capable of detecting different biomarker types with high performance and minimal complexity, ideally suitable for point-of-care use. Here, we present an integrated nanopore sensor for amplification-free, label-free, and quantitative detection of both proteins and nucleic acids from clinical samples. High performance is enabled by trapping target-carrying microbeads at the nanopore location and rapid detection of individual targets upon release from the beads. Low complexity is achieved via a simple solid-phase extraction protocol and optics-free, flow-based bead trapping. The device is validated through the analysis of biofluids from a baboon infected with SARS-CoV-2. Detection of the spike protein down to 100 fg/mL, with a linear count over 5 orders of magnitude, and SARS-CoV-2 RNA over the entire course of infection, down to a concentration of 7.5 aM, are demonstrated. This platform enables ultrasensitive, quantitative analysis of different biomarker types using a single protocol and holds promise as a universal biosensor for infectious disease detection and a wide range of applications."
+  },
+  {
+    "id": "pmid:40784030",
+    "pmid": "40784030",
+    "title": "Integrated Microneedle Aptasensing Platform toward Point-of-Care Monitoring of Bacterial Infections and Treatment.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40784030/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Point-of-care (POC) monitoring of clinical inflammation biomarkers in interstitial fluid (ISF) has a great perspective on personalized healthcare. Herein, an integrated ultraswelling microneedle aptamer-recognition tester (uSMART) was developed for POC monitoring of antibiotic-resistant bacterial infections and therapeutic outcomes. The hyaluronic acid methacryloyl/sodium hyaluronate-microneedle (HAMA/SH-MN) module with excellent swelling and mechanical properties could cross the epidermis and access enough dermis ISF in a minimally invasive, painless, and rapid manner. Meanwhile, the hierarchical flower-like gold nanostructure-decorated screen-printed carbon electrode (HFGN-SPCE) combined with a target-induced aptamer-recognition unit was employed as the reagentless nanosensing module to sensitively and selectively detect C-reactive protein (CRP)."
+  },
+  {
+    "id": "pmid:40772537",
+    "pmid": "40772537",
+    "title": "CRISPR-Based Live Cell Biosensing: Innovations in Signal Labeling Strategies and Delivery Systems.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40772537/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "CRISPR technology provides unprecedented precision for molecular imaging and target detection at the cellular level. However, interested researchers inevitably encounter challenges, including weak labeling signals, low delivery efficiency, and off-target effects when establishing application frameworks. Therefore, discussing signal labeling strategies and delivery systems is crucial to further improving the performance of CRISPR-based live cell biosensing. In this review, we first focus on signal labeling strategies for CRISPR-based cellular imaging, including fluorescent protein fusion, fluorescent protein recruitment, RNA modification and hybridization, and irrelevant signal reporters. Depending on the effector proteins and application scenarios, selecting the appropriate signal labeling method can help improve imaging sensitivity and signal intensity. Second, we summarize materials that can be used for CRISPR intracellular delivery, such as nanoparticles, nanosheets, and other nanomaterials. Some nanomaterials have been shown to further enhance the activity of effector proteins, in addition to facilitating the cellular entry of active components. Furthermore, we discuss the challenges and future directions of CRISPR imaging technologies. By integrating multidisciplinary innovations, the CRISPR-based live cell biosensor holds promise as a next-generation visualization tool for life science research and precision medicine."
+  },
+  {
+    "id": "pmid:40728872",
+    "pmid": "40728872",
+    "title": "An Enhanced Red Bioluminescent Indicator for Responsive Detection of Physiological Calcium Dynamics in Cells and Mice.",
+    "date": "2025 Aug 22",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/40728872/",
+    "source": "journals",
+    "is_verified": true,
+    "text": "Calcium (Ca"
   }
 ]
