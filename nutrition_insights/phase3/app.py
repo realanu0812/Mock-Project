@@ -107,14 +107,14 @@ with st.sidebar:
 # =============================
 
 def _load_df(data_dir: Path | None) -> pd.DataFrame | None:
-    # Always load from combined.json
+    # Always load from filtered corpus
     if data_dir is None:
         return None
-    combined_path = data_dir / "combined.json"
-    if not combined_path.exists():
+    filtered_path = data_dir / "corpus_filtered.jsonl"
+    if not filtered_path.exists():
         return None
-    with open(combined_path, "r", encoding="utf-8") as f:
-        records = json.load(f)
+    with open(filtered_path, "r", encoding="utf-8") as f:
+        records = [json.loads(line) for line in f]
     df = pd.DataFrame(records)
     return _force_hashable_df(df)
 

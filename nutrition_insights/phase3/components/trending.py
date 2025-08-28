@@ -96,12 +96,12 @@ def render(df: pd.DataFrame, keywords: List[str], source_filter: str, meta=None,
     )
 
 def render_trending():
-    # Load combined.json directly
-    data_path = "../data/combined.json"
+    # Load filtered corpus for trending
+    data_path = "../data/corpus_filtered.jsonl"
     try:
         with open(data_path, "r", encoding="utf-8") as f:
-            records = json.load(f)
+            records = [json.loads(line) for line in f]
         df = pd.DataFrame(records)
     except Exception as e:
-        st.error(f"❌ Failed to load combined.json: {e}")
+        st.error(f"❌ Failed to load filtered corpus: {e}")
         return

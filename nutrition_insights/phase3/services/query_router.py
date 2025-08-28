@@ -90,15 +90,32 @@ def build_context_snippets(
             "date": date_col,
             "text": text,
         }
-    ).sort_values("score", ascending=False)
+    )
 
     tmp = tmp[tmp["score"] > 0]
 
-    # Keep all matching rows, no cap or topn
-    out_rows: List[Snippet] = []
+    # Sort by score (relevancy), then by recency (newer first)
+    tmp = tmp.sort_values(["score", "date"], ascending=[False, False])
+
+    # Remove near-duplicate snippets (highly similar text)
+    def is_similar(a, b, threshold=0.85):
+        # Simple Jaccard similarity on tokens
+        toks_a = set(a.lower().split())
+        toks_b = set(b.lower().split())
+        if not toks_a or not toks_b:
+            return False
+        inter = toks_a & toks_b
+        union = toks_a | toks_b
+        return len(inter) / max(1, len(union)) > threshold
+
+    selected = []
+    seen_texts = []
     for _, row in tmp.iterrows():
         snippet_text = _make_excerpt(row.get("text") or "", q_toks, min_chars, max_chars)
         if not snippet_text:
+            continue
+        # Check for near-duplicates
+        if any(is_similar(snippet_text, t) for t in seen_texts):
             continue
         dt = row.get("date")
         dt_str = None
@@ -110,7 +127,7 @@ def build_context_snippets(
         raw_title = (row.get("title") or "").strip()
         if not raw_title:
             raw_title = " ".join((row.get("text") or "").strip().split()[:8])
-        out_rows.append(
+        selected.append(
             Snippet(
                 title=raw_title or "(untitled)",
                 source=(row.get("source") or "unknown").lower(),
@@ -120,7 +137,28 @@ def build_context_snippets(
                 score=float(row.get("score") or 0.0),
             )
         )
-    return out_rows
+        seen_texts.append(snippet_text)
+        # Stop if we reach topn
+        if topn and len(selected) >= topn:
+            break
+
+    # If possible, maximize source diversity in the topn
+    if topn and len(selected) > 2:
+        # Try to reorder so that sources are interleaved
+        from collections import defaultdict, deque
+        by_source = defaultdict(deque)
+        for s in selected:
+            by_source[s.source].append(s)
+        interleaved = []
+        while len(interleaved) < min(topn, len(selected)):
+            for src in sorted(by_source, key=lambda k: -len(by_source[k])):
+                if by_source[src]:
+                    interleaved.append(by_source[src].popleft())
+                if len(interleaved) >= topn:
+                    break
+        selected = interleaved
+
+    return selected
 
 
 # ----------------------------------
@@ -136,7 +174,8 @@ def _safe_series(df: pd.DataFrame, col: str, *, fill: Optional[str] = None) -> p
 
 def _coerce_utc_series(s: pd.Series) -> pd.Series:
     try:
-        return pd.to_datetime(s, utc=True, errors="coerce")
+        # Specify format if known, else suppress warning
+        return pd.to_datetime(s, utc=True, errors="coerce", format="%Y-%m-%d")
     except Exception:
         return pd.to_datetime(pd.Series([pd.NaT] * len(s)), utc=True)
 

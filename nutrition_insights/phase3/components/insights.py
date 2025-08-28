@@ -89,7 +89,7 @@ def render_buzz(df: pd.DataFrame, meta=None) -> None:
         "At the end, provide references (with title and link) as a numbered list, separated by a line 'REFERENCES:'.\n\n"
         f"{buzz_context}"
     )
-    summary = chat_completion(prompt)
+    summary = chat_completion(prompt, timeout=180)
     # Split summary into findings and references
     findings, references = summary, ""
     if "REFERENCES:" in summary:
@@ -126,7 +126,7 @@ def render(df: pd.DataFrame, meta=None) -> None:
         st.info("No journal findings available.")
         return
 
-    # Prepare context for Gemini: journal findings with evidence
+    # Prepare context for Gemini: journal findings with evidence (limit to 7)
     journal_evidence = []
     for _, r in jdf.iterrows():
         title = (r.get("title") or r.get("headline") or "").strip()
@@ -135,16 +135,20 @@ def render(df: pd.DataFrame, meta=None) -> None:
         if not title and not text:
             continue
         journal_evidence.append(f"- **{title}**: {text} (ref: {url})")
+        if len(journal_evidence) >= 7:
+            break
     journal_context = "\n".join(journal_evidence)
 
     from utils.gemini_client import chat_completion
     prompt = (
         "Summarize the latest verified findings from journals on protein-related topics. "
-        "Use the following findings as evidence. List each finding as a bullet. "
+        "Focus on practical, actionable, and business-relevant insights for product managers, marketers, and business leaders—avoid deep scientific jargon. "
+        "Highlight trends, consumer benefits, risks, and tips about protein types, timing, dosage, safety, and market buzz. "
+        "Return ONLY up to 7 short bullet points, no paragraphs. Each finding must be a separate bullet. "
         "At the end, provide references (with title and link) as a numbered list, separated by a line 'REFERENCES:'.\n\n"
         f"{journal_context}"
     )
-    summary = chat_completion(prompt)
+    summary = chat_completion(prompt, timeout=180)
     findings, references = summary, ""
     if "REFERENCES:" in summary:
         findings, references = summary.split("REFERENCES:", 1)
@@ -159,12 +163,55 @@ def render(df: pd.DataFrame, meta=None) -> None:
             st.markdown(references.strip(), unsafe_allow_html=True)
 
 def render_insights():
-    # Load combined.json directly
-    data_path = "../data/combined.json"
+    # Load filtered corpus for insights
+    import os
+    import json
+    data_path = "../data/corpus_filtered.jsonl"
     try:
         with open(data_path, "r", encoding="utf-8") as f:
-            records = json.load(f)
+            records = [json.loads(line) for line in f]
         df = pd.DataFrame(records)
     except Exception as e:
-        st.error(f"❌ Failed to load combined.json: {e}")
+        st.error(f"❌ Failed to load filtered corpus: {e}")
         return
+
+    # --- Top K feature ---
+    top_k = int(os.environ.get("INSIGHTS_TOP_K", "8"))
+    # Sort by relevance (if available)
+    sorted_records = records
+    if "score" in df.columns:
+        sorted_records = sorted(records, key=lambda r: r.get("score", 0), reverse=True)
+    top_context = sorted_records[:top_k]
+
+    # Build context for Gemini
+    context_snippets = []
+    for rec in top_context:
+        title = rec.get("title", "")
+        text = rec.get("text", "")
+        url = rec.get("url", "")
+        context_snippets.append(f"- **{title}**: {text} (ref: {url})")
+    context = "\n".join(context_snippets)
+
+    from utils.gemini_client import chat_completion
+    prompt = (
+        "Summarize the latest protein-related findings from journals and trusted sources. "
+        "Focus on practical, actionable insights for everyday users, athletes, and consumers—avoid deep scientific jargon. "
+        "Highlight trends, benefits, risks, and tips about protein types, timing, dosage, safety, and market buzz. "
+        "Return ONLY bullet points, no paragraphs. Each finding must be a separate bullet. "
+        "At the end, provide references (with title and link) as a numbered list, separated by a line 'REFERENCES:'.\n\n"
+        f"{context}"
+    )
+    gemini_model = "gemini-1.5-flash"
+    summary = chat_completion(prompt, model=gemini_model, timeout=180)
+    findings, references = summary, ""
+    if "REFERENCES:" in summary:
+        findings, references = summary.split("REFERENCES:", 1)
+    st.markdown("""
+        <div style=\"background:linear-gradient(90deg,#18181b 0%,#232326 100%);border-radius:18px;padding:28px 32px;margin-bottom:18px;box-shadow:0 4px 24px rgba(0,0,0,0.18);color:#fff;\">
+            <h3 style=\"margin-top:0;margin-bottom:12px;font-size:1.5rem;font-weight:800;color:#fff;\">Verified Findings (Journals)</h3>
+            <div style=\"font-size:1.08rem;color:#e5e5e5;line-height:1.7;\">\n{}\n</div>
+        </div>
+    """.format(findings.strip()), unsafe_allow_html=True)
+    if references.strip():
+        with st.expander("Show References"):
+            st.markdown(references.strip(), unsafe_allow_html=True)

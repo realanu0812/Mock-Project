@@ -54,12 +54,7 @@ def _format_context(snippets: list[dict]) -> str:
 
 
 def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
-    # Ensure all columns are hashable before caching
-    if df is not None and not df.empty:
-        import json
-        for col in df.columns:
-            df[col] = df[col].apply(lambda x: json.dumps(x, ensure_ascii=False) if isinstance(x, (list, dict, set)) else x)
-    
+    st.subheader("Chatbot")
     _init_state()
     _render_history()
 
@@ -76,19 +71,54 @@ def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
         st.session_state.chat_history.append({"role": "assistant", "content": OUT_OF_SCOPE})
         return
 
-    # Filter dataframe by source_filter and window_days before building context snippets
-    df_filtered = df.copy()
-    if source_filter and source_filter != "All" and "source" in df_filtered.columns:
-        df_filtered = df_filtered[df_filtered["source"].str.lower() == source_filter.lower()]
-    if window_days and "date" in df_filtered.columns:
+    # Efficient DataFrame filtering with Streamlit caching
+    @st.cache_data(show_spinner=False)
+    def filter_df(df, source_filter, window_days):
+        # Ignore all filtering; return the full DataFrame (date filtering is handled at scraping)
+        return df
+
+
+    @st.cache_data(show_spinner=False)
+    def cached_snippets(df_filtered, q):
+        # Lower strictness: allow partial matches, more snippets, and lower min_chars
         try:
-            cutoff = pd.Timestamp.utcnow() - pd.Timedelta(days=window_days)
-            df_filtered = df_filtered[pd.to_datetime(df_filtered["date"], errors="coerce") >= cutoff]
-        except Exception:
-            pass
-    # Use all available context snippets for Gemini
-    snippets = build_context_snippets(df_filtered, q)
-    context = _format_context(snippets)
+            return build_context_snippets(df_filtered, q, topn=15, per_source_cap=6, min_chars=40, max_chars=900, recency_boost=0.0)
+        except Exception as e:
+            st.warning(f"Context build failed: {e}")
+            return []
+
+    import time
+    start_snip = time.time()
+    df_filtered = filter_df(df, source_filter, window_days)
+    snippets = cached_snippets(df_filtered, q)
+    snip_time = time.time() - start_snip
+    if snip_time > 2:
+        st.warning(f"Context building took {snip_time:.2f}s. Consider optimizing index or filtering.")
+
+    # If no snippets found, fallback to FAISS vector search
+    used_faiss = False
+    if not snippets:
+        try:
+            from components.faiss_utils import faiss_topk
+            faiss_hits = faiss_topk(q, k=8)
+            if faiss_hits:
+                used_faiss = True
+                # Convert FAISS hits to snippet-like dicts
+                snippets = []
+                for h in faiss_hits:
+                    snippets.append(type('Snippet', (), h))
+        except Exception as e:
+            st.warning(f"FAISS fallback failed: {e}")
+
+    # Pre-extract attributes for formatting (faster than getattr in loop)
+    context_blocks = []
+    for i, s in enumerate(snippets, 1):
+        src = getattr(s, "source", "unknown")
+        dt = getattr(s, "date", "")
+        title = getattr(s, "title", "") or ""
+        excerpt = getattr(s, "excerpt", getattr(s, "text", "")) or ""
+        context_blocks.append(f"[{i}] ({src} | {dt}) {title}\n{excerpt}")
+    context = "\n\n".join(context_blocks)
 
     # Compose prompt
     user_prompt = (
@@ -100,11 +130,12 @@ def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
         f"{OUT_OF_SCOPE}"
     )
 
-    # Call LLM
+    # Call LLM with increased timeout for slow responses
     with st.spinner("Thinking..."):
         reply = chat_completion(
             prompt=user_prompt,
             system=_system_prompt(),
+            timeout=180,  # Increased timeout for Gemini API
         )
 
     # Show and persist
@@ -119,6 +150,9 @@ def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
         if snippets:
             for i, s in enumerate(snippets, 1):
                 st.markdown(f"**[{i}] {getattr(s, 'title', '(no title)')}** — {getattr(s, 'source', '?')} | {getattr(s, 'date', '')}")
-                st.caption((getattr(s, "excerpt", "")[:400]) + ("..." if len(getattr(s, "excerpt", "")) > 400 else ""))
+                excerpt = getattr(s, "excerpt", getattr(s, "text", ""))
+                st.caption((excerpt[:400]) + ("..." if len(excerpt) > 400 else ""))
         else:
             st.caption("No matching snippets.")
+    if used_faiss:
+        st.info("Used semantic search (FAISS) fallback for context.")

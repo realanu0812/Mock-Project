@@ -83,11 +83,13 @@ def render(df: pd.DataFrame, counts: SourceCounts, meta: Optional[Dict[str, str]
             df[col] = df[col].apply(force_hashable)
     st.subheader("Data Overview")
     st.markdown('<hr style="border:none;height:1px;background:linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.15), rgba(0,0,0,0));">', unsafe_allow_html=True)
+    
 
     # --- Refresh Button ---
-    # Only trigger update/filter logic, do not run RAG or rebuild index
-    REFRESH_PATH = Path(__file__).parent.parent.parent / "merge_scrapper.py"
-    # PATCH: Remove all references to filtered corpus
+    # Run full pipeline: merge scrapper, filter, RAG index
+    MERGE_SCRAPPER = Path(__file__).parent.parent.parent / "merge_scrapper.py"
+    FILTER_CORPUS = Path(__file__).parent.parent.parent / "rag" / "filter_corpus.py"
+    RAG_INDEX = Path(__file__).parent.parent.parent / "rag" / "build_index.py"
     last_run = None
     if meta and (meta.get("last_updated") or meta.get("last_run")):
         try:
@@ -99,14 +101,14 @@ def render(df: pd.DataFrame, counts: SourceCounts, meta: Optional[Dict[str, str]
     needs_refresh = not last_run or (now - last_run.to_pydatetime()) > refresh_threshold
     if st.button("🔄 Refresh Data", help="To keep the data up-to-date"):
         try:
-            with st.spinner("Updating…"):
-                # Always run full refresh if no previous data
-                if last_run is None or needs_refresh:
-                    subprocess.run(["python", str(REFRESH_PATH), "--full"], capture_output=True, text=True, check=True)
-                    st.toast("Data refreshed", icon="✅")
-                    st.rerun()
-                else:
-                    st.toast("Already up to date", icon="⏱️")
+            with st.spinner("Running merge scrapper..."):
+                subprocess.run(["python", str(MERGE_SCRAPPER)], capture_output=True, text=True, check=True)
+            with st.spinner("Filtering corpus..."):
+                subprocess.run(["python", str(FILTER_CORPUS)], capture_output=True, text=True, check=True)
+            with st.spinner("Building RAG index..."):
+                subprocess.run(["python", str(RAG_INDEX)], capture_output=True, text=True, check=True)
+            st.toast("Data pipeline refreshed!", icon="✅")
+            st.rerun()
         except subprocess.CalledProcessError:
             st.toast("Refresh failed", icon="❌")
 

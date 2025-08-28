@@ -6,6 +6,7 @@ from typing import Iterable, Optional, List
 import json
 
 import pandas as pd
+pd.set_option('future.no_silent_downcasting', True)
 
 # Import the helpers you already have in utils/common.py
 from utils.common import (
@@ -64,6 +65,7 @@ def _coalesce_cols(df: pd.DataFrame, cols: List[str], default: Optional[object] 
         return pd.Series(default, index=df.index)
     # Back-fill across columns so each row's first non-null "moves" left
     s = df[existing].bfill(axis=1).iloc[:, 0]
+    s = s.infer_objects(copy=False)
     if default is not None:
         s = s.fillna(default)
     return s
@@ -195,8 +197,7 @@ def load_data(data_dir: Path | str) -> pd.DataFrame:
 
     # PATCH: Only use combined.json(l) as dashboard source
     combined = _first_existing([
-        data_dir / "combined.jsonl",
-        data_dir / "combined.json",
+        data_dir / "corpus_filtered.jsonl",
     ])
     if combined:
         df = _read_any_json(combined)

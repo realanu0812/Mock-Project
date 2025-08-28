@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import streamlit as st
+import plotly.express as px
 import pandas as pd
 from textwrap import shorten
 import json
@@ -111,19 +112,24 @@ def _count_keyword_groups(text_series: pd.Series, groups: dict[str, list[str]]) 
                     break  # avoid double counting a group within the same doc
     return group_counts
 
+
+
+# --- Horizontal bar chart using Plotly for premium look ---
+from components.plot_utils_business import horizontal_bar_chart, horizontal_bar_chart_series
+
 def _series_bar(series: pd.Series, title: str, sort_desc: bool = True, top_n: int | None = None):
     s = series.dropna()
     if sort_desc:
-        s = s.sort_values(ascending=True)  # horizontal chart sorts bottom->top
+        s = s.sort_values(ascending=True)
     if top_n:
         s = s.tail(top_n)
-    st.bar_chart(s, height=320, use_container_width=True)
-    st.caption(title)
+    horizontal_bar_chart_series(s, title=title)
 
 
 # ----------------- Main Render Function -----------------
 
-import streamlit as st
+
+# Remove duplicate import of streamlit as st (should only be at the top)
 
 
 # Only cache on refresh_key and simple args, never on DataFrame or objects
@@ -132,12 +138,12 @@ def cached_analysis(refresh_key: int = 0, source_filter: str = "All", model: str
     """
     Cached business analysis. Invalidate only when refresh_key changes.
     """
-    data_path = "../data/combined.json"
+    data_path = "../data/corpus_filtered.jsonl"
     try:
         with open(data_path, "r", encoding="utf-8") as f:
-            combined_data = json.load(f)
+            combined_data = [json.loads(line) for line in f]
     except Exception as e:
-        return None, f"❌ Failed to load combined.json: {e}"
+        return None, f"❌ Failed to load filtered corpus: {e}"
     return combined_data, None
 
 def render(source_filter: str = None, model: str | None = None, refresh_key: int = 0) -> None:
@@ -172,6 +178,7 @@ def render(source_filter: str = None, model: str | None = None, refresh_key: int
 
     # --- Visualization 2: Mentions over time ---
     # --- Visualization 3: Top brands ---
+
     st.markdown("### 🏷️ Top Mentioned Brands")
     brand_keywords = [
         # Global leaders
@@ -203,7 +210,7 @@ def render(source_filter: str = None, model: str | None = None, refresh_key: int
                     brand_counts[brand] += 1
     brand_counts = {b: c for b, c in brand_counts.items() if c > 0}
     if brand_counts:
-        st.bar_chart(pd.Series(brand_counts, name="Mentions"))
+        horizontal_bar_chart(brand_counts, title="Top Mentioned Brands", x_label="Mentions", y_label="Brand")
     else:
         st.info("No major brand mentions found in this dataset.")
 
@@ -228,11 +235,12 @@ def render(source_filter: str = None, model: str | None = None, refresh_key: int
         "Convenience • Mix/Sachets": ["mixability", "scoop", "single-serve", "sachet", "sticks", "on-the-go"]
     }
 
+
     attr_counts = _count_keyword_groups(df.get("combined_text", pd.Series([], dtype=object)), attr_groups)
     attr_series = pd.Series(attr_counts, dtype="int64")
 
     if attr_series.sum() > 0:
-        _series_bar(attr_series, "Mentions by Consumer Preference Group", sort_desc=True)
+        horizontal_bar_chart_series(attr_series, title="Mentions by Consumer Preference Group", x_label="Mentions", y_label="Group")
     else:
         st.info("No clear consumer preference keywords detected in this dataset.")
 
@@ -256,38 +264,56 @@ def render(source_filter: str = None, model: str | None = None, refresh_key: int
 
     gemini_prompt = (
         "Analyze the following recent protein market news, research, and discussions. "
-        "Summarize into **3 categories**: (1) 📈 Trends, (2) 💡 Opportunities, (3) ⚠ Risks. "
-        "For Trends, focus on emerging patterns in consumer preferences, product innovations, and market dynamics. And don't give references inline."
-        "For Opportunities, focus on practical strategies a protein-nutrition company can apply to improve product quality, customer satisfaction, and revenue. "
-        "Include actionable suggestions for R&D, formulation, supply chain, marketing, and new SKUs. "
-        "Use short, business-focused bullet points. "
+        "Summarize into **3 categories**: (1) 📈 Trends, (2) 💡 Business Opportunities, (3) ⚠ Risks & Challenges. "
+        "For each category, give ONLY short bullet points, not paragraphs. "
+        "Focus on practical, actionable insights for business and product teams—avoid deep scientific jargon. "
         "Do NOT put references inline. After last of these I will give references.\n\n"
         + context
     )
-    gemini_analysis = chat_completion(gemini_prompt)
+    gemini_model = "gemini-1.5-flash"
+    # Cache Gemini analysis for repeated queries
+    # REMOVE: duplicate import of streamlit as st
+
+    @st.cache_data(show_spinner=False)
+    def cached_gemini_analysis(prompt, model):
+        try:
+            return chat_completion(prompt, model=model, timeout=180)
+        except Exception as e:
+            return f"❌ Gemini API error: {e}"
+    gemini_analysis = cached_gemini_analysis(gemini_prompt, gemini_model)
 
     # --- Premium Matte Black UI ---
-    st.markdown("""
-        <div style='background:linear-gradient(90deg,#18181b 0%,#232326 100%);border-radius:22px;padding:32px 36px;margin-bottom:24px;box-shadow:0 8px 32px rgba(0,0,0,0.18);color:#fff;'>
-            <h2 style='margin-top:0;margin-bottom:18px;font-size:2.1rem;font-weight:900;color:#fff;font-family:Montserrat,Arial,sans-serif;letter-spacing:0.01em;'>Business Strategies</h2>
-            <h3 style='margin-top:0;margin-bottom:10px;font-size:1.35rem;font-weight:800;color:#e5e5e5;font-family:Montserrat,Arial,sans-serif;'>📈 Market Trends</h3>
-            <div style='font-size:1.08rem;color:#e5e5e5;line-height:1.7;font-family:Montserrat,Arial,sans-serif;'>
-                {trends}
+    # --- Premium Matte Black UI with subtle hover and spacing tweaks ---
+    if gemini_analysis.startswith("❌ Gemini API error"):
+        st.error(gemini_analysis)
+    else:
+        # Defensive split for categories
+        trends = gemini_analysis.split('💡 Business Opportunities')[0].strip() if '💡 Business Opportunities' in gemini_analysis else gemini_analysis
+        bizop = ""
+        risks = ""
+        if '💡 Business Opportunities' in gemini_analysis:
+            after_biz = gemini_analysis.split('💡 Business Opportunities')[1]
+            if '⚠ Risks & Challenges' in after_biz:
+                bizop = after_biz.split('⚠ Risks & Challenges')[0].strip()
+                risks = after_biz.split('⚠ Risks & Challenges')[1].strip()
+            else:
+                bizop = after_biz.strip()
+        st.markdown(f"""
+            <div style='background:#18181b;border-radius:24px;padding:36px 40px 32px 40px;margin-bottom:28px;box-shadow:0 8px 32px rgba(60,60,120,0.18);border:2px solid #222;position:relative;overflow:hidden;transition:box-shadow 0.2s;'>
+                <h3 style='margin-top:0;margin-bottom:16px;font-size:1.45rem;font-weight:900;color:#fff;font-family:Montserrat,Arial,sans-serif;letter-spacing:0.01em;'>📈 Trends</h3>
+                <div style='font-size:1.13rem;color:#f3f3f3;line-height:1.7;font-family:Montserrat,Arial,sans-serif;font-weight:500;'>
+                    {trends}
+                </div>
+                <h3 style='margin-top:32px;margin-bottom:16px;font-size:1.45rem;font-weight:900;color:#fff;font-family:Montserrat,Arial,sans-serif;letter-spacing:0.01em;'>💡 Business Opportunities</h3>
+                <div style='font-size:1.13rem;color:#f3f3f3;line-height:1.7;font-family:Montserrat,Arial,sans-serif;font-weight:500;'>
+                    {bizop}
+                </div>
+                <h3 style='margin-top:32px;margin-bottom:16px;font-size:1.45rem;font-weight:900;color:#fff;font-family:Montserrat,Arial,sans-serif;letter-spacing:0.01em;'>⚠ Risks & Challenges</h3>
+                <div style='font-size:1.13rem;color:#f3f3f3;line-height:1.7;font-family:Montserrat,Arial,sans-serif;font-weight:500;'>
+                    {risks}
+                </div>
             </div>
-            <h3 style='margin-top:28px;margin-bottom:10px;font-size:1.35rem;font-weight:800;color:#e5e5e5;font-family:Montserrat,Arial,sans-serif;'>💡 Business Opportunities</h3>
-            <div style='font-size:1.08rem;color:#b3ffb3;line-height:1.7;font-family:Montserrat,Arial,sans-serif;'>
-                {opps}
-            </div>
-            <h3 style='margin-top:28px;margin-bottom:10px;font-size:1.35rem;font-weight:800;color:#e5e5e5;font-family:Montserrat,Arial,sans-serif;'>⚠ Risks & Challenges</h3>
-            <div style='font-size:1.08rem;color:#ffb3b3;line-height:1.7;font-family:Montserrat,Arial,sans-serif;'>
-                {risks}
-            </div>
-        </div>
-    """.format(
-        trends=gemini_analysis.split("💡 Opportunities")[0].replace("📈 Trends", "").strip(),
-        opps=gemini_analysis.split("💡 Opportunities")[1].split("⚠ Risks")[0].strip() if "💡 Opportunities" in gemini_analysis else "",
-        risks=gemini_analysis.split("⚠ Risks")[1].strip() if "⚠ Risks" in gemini_analysis else ""
-    ), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     if references.strip():
         with st.expander("📚 Sources"):
             st.markdown(references, unsafe_allow_html=True)

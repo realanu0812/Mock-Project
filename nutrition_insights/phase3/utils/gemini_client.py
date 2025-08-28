@@ -15,19 +15,24 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-1.5-flash")
 API_URL = f"https://generativelanguage.googleapis.com/v1/models/{GEMINI_MODEL}:generateContent"
 
-def chat_completion(prompt: str, system: Optional[str] = None, timeout: int = 60) -> str:
+def chat_completion(prompt: str, system: Optional[str] = None, timeout: int = 60, model: Optional[str] = None) -> str:
     if not GEMINI_API_KEY:
         return "⚠️ (Gemini) GEMINI_API_KEY is not set"
 
-    # --- Load and filter protein-related evidence from combined.json (RAG-style) ---
+    # --- Load and filter protein-related evidence from the filtered corpus (RAG-style) ---
     import json
     import re
-    import os
-    evidence_path = os.path.join(os.path.dirname(__file__), "../../data/combined.json")
+    # Use filtered corpus for better relevance
+    evidence_path = os.path.join(os.path.dirname(__file__), "../../data/corpus_filtered.jsonl")
     evidence = []
     try:
         with open(evidence_path, "r", encoding="utf-8") as f:
-            evidence = json.load(f)
+            for line in f:
+                try:
+                    item = json.loads(line)
+                    evidence.append(item)
+                except Exception:
+                    continue
     except Exception:
         evidence = []
 
@@ -87,31 +92,12 @@ def chat_completion(prompt: str, system: Optional[str] = None, timeout: int = 60
     if not top_evidence and not top_reddit:
         return "⚠️ (Gemini) No protein-related evidence found in the filtered data corpus. Please check your query or try again later."
 
-    # --- Top K feature ---
-    # Allow user to specify top_k (default: 8 for journal, 4 for reddit)
-    import os
-    try:
-        top_k_journal = int(os.environ.get("GEMINI_TOP_K_JOURNAL", "8"))
-    except Exception:
-        top_k_journal = 8
-    try:
-        top_k_reddit = int(os.environ.get("GEMINI_TOP_K_REDDIT", "4"))
-    except Exception:
-        top_k_reddit = 4
-
-    # Optionally allow top_k override via prompt (e.g. "top k=5")
-    import re
-    top_k_match = re.search(r"top\s*k\s*=\s*(\d+)", prompt.lower())
-    if top_k_match:
-        top_k_journal = int(top_k_match.group(1))
-        top_k_reddit = max(2, top_k_journal // 2)
-
     # Build context for Gemini prompt
     context_parts = []
     if top_evidence:
-        context_parts.append(f"Journal/Verified Evidence:\n" + "\n---\n".join(top_evidence[:top_k_journal]))
+        context_parts.append("Journal/Verified Evidence:\n" + "\n---\n".join(top_evidence[:8]))
     if top_reddit:
-        context_parts.append(f"Community Buzz (Reddit/Blogs):\n" + "\n---\n".join(top_reddit[:top_k_reddit]))
+        context_parts.append("Community Buzz (Reddit/Blogs):\n" + "\n---\n".join(top_reddit[:4]))
     context_snippets = "\n\n".join(context_parts)
     user_text = f"Context (protein evidence from data corpus):\n{context_snippets}\n\nUser question: {prompt}"
     if system:
@@ -123,20 +109,31 @@ def chat_completion(prompt: str, system: Optional[str] = None, timeout: int = 60
         return f"⚠️ (Gemini) No sufficient protein-related evidence for a summary. Here are raw protein evidence snippets:\n\n{context_snippets}"
     body = {"contents": [{"role": "user", "parts": [{"text": user_text}]}]}
 
-    try:
-        resp = requests.post(
-            API_URL,
-            headers={"Content-Type": "application/json"},
-            params={"key": GEMINI_API_KEY},
-            json=body,
-            timeout=timeout,
-        )
-        resp.raise_for_status()
-        data = resp.json()
-        # Gemini sometimes returns out-of-scope or irrelevant answers; filter them
-        result = data["candidates"][0]["content"]["parts"][0]["text"].strip()
-        if "out of scope" in result.lower() or "not related" in result.lower():
-            return "⚠️ (Gemini) No relevant protein-related summary could be generated. Please check your context."
-        return result
-    except Exception as e:
-        return f"⚠️ (Gemini API error) {e}"
+    # Use model argument if provided, else default
+    use_model = model if model else GEMINI_MODEL
+    api_url = f"https://generativelanguage.googleapis.com/v1/models/{use_model}:generateContent"
+    import time
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            resp = requests.post(
+                api_url,
+                headers={"Content-Type": "application/json"},
+                params={"key": GEMINI_API_KEY},
+                json=body,
+                timeout=timeout,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            # Gemini sometimes returns out-of-scope or irrelevant answers; filter them
+            result = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            if "out of scope" in result.lower() or "not related" in result.lower():
+                return "⚠️ (Gemini) No relevant protein-related summary could be generated. Please check your context."
+            return result
+        except requests.exceptions.HTTPError as e:
+            if resp.status_code == 503 and attempt < max_retries - 1:
+                time.sleep(2)  # Wait before retrying
+                continue
+            return f"⚠️ (Gemini API error) Service Unavailable (503). Please try again later."
+        except Exception as e:
+            return f"⚠️ (Gemini API error) {e}"

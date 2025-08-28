@@ -1,7 +1,7 @@
 {
-  "last_run_iso": "2025-08-28T07:28:54.926641+00:00",
+  "last_run_iso": "2025-08-28T15:29:41.992184+00:00",
   "used_since": null,
-  "mode": "full",
+  "mode": "default",
   "files": {
     "output": "/Volumes/Work/Mock-Project/nutrition_insights/data/combined.json",
     "blogs": "/Volumes/Work/Mock-Project/nutrition_insights/data/blogs.json",
@@ -9,10 +9,10 @@
     "journals": "/Volumes/Work/Mock-Project/nutrition_insights/data/journals.json"
   },
   "counts": {
-    "combined_total": 566,
-    "added_after_dedupe": 1,
+    "combined_total": 565,
+    "added_after_dedupe": 565,
     "loaded_blogs": 15,
-    "loaded_reddit": 51,
+    "loaded_reddit": 50,
     "loaded_journals": 500
   }
 }
