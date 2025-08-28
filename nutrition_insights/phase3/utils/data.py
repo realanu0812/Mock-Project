@@ -2,37 +2,76 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Iterable, Optional, Tuple
-
+from typing import Iterable, Optional, List
 import json
 
 import pandas as pd
-from typing import List
 
-def _coalesce_cols(df: pd.DataFrame, cols: List[str], default: Optional[object] = None) -> pd.Series:
-    """
-    Row-wise coalesce across first existing columns in `cols`.
-    Returns the first non-null value per row. If none, uses `default`.
-    """
-    existing = [c for c in cols if c in df.columns]
-    if not existing:
-        return pd.Series(default, index=df.index)
-    # bfill across columns, then take first column (now each row is the first non-na)
-    s = df[existing].bfill(axis=1).iloc[:, 0]
-    if default is not None:
-        s = s.fillna(default)
-    return s
-
+# Import the helpers you already have in utils/common.py
 from utils.common import (
     utc_now,
     coerce_utc_series,
     dataset_counts,
 )
 
+# ---------------------------------------------------------------------
+# Global hashable utility for dict/list/set fields
+# ---------------------------------------------------------------------
+import json
+def force_hashable(val):
+    """
+    Recursively convert dict/list/set values to JSON strings for hash/caching safety.
+    Use on any record or DataFrame before caching or writing.
+    """
+    if isinstance(val, dict):
+        return {k: force_hashable(v) for k, v in val.items()}
+    elif isinstance(val, (list, set)):
+        return json.dumps([force_hashable(x) for x in val], ensure_ascii=False)
+    else:
+        return val
 
-# ---------------------------
-# File discovery
-# ---------------------------
+# ---------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------
+
+def _stringify_unhashables(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert list/dict/set cells into JSON strings so Streamlit can hash the DF for caching.
+    Run this after column normalization.
+    """
+    if df is None or df.empty:
+        return df
+    for col in df.columns:
+        ser = df[col]
+        if ser.dtype == "object":
+            # Only transform unhashable container types
+            if ser.map(lambda x: isinstance(x, (list, dict, set))).any():
+                df[col] = ser.map(
+                    lambda x: json.dumps(x, ensure_ascii=False, sort_keys=True)
+                    if isinstance(x, (list, dict, set)) else x
+                )
+    return df
+
+
+def _coalesce_cols(df: pd.DataFrame, cols: List[str], default: Optional[object] = None) -> pd.Series:
+    """
+    Row-wise coalesce across the first existing columns in `cols`.
+    Returns the first non-null value per row. If none, uses `default`.
+    """
+    existing = [c for c in cols if c in df.columns]
+    if not existing:
+        # Return a Series indexed like df with the default scalar value
+        return pd.Series(default, index=df.index)
+    # Back-fill across columns so each row's first non-null "moves" left
+    s = df[existing].bfill(axis=1).iloc[:, 0]
+    if default is not None:
+        s = s.fillna(default)
+    return s
+
+
+# ---------------------------------------------------------------------
+# File discovery & reading
+# ---------------------------------------------------------------------
 def _first_existing(paths: Iterable[Path]) -> Optional[Path]:
     for p in paths:
         if p and p.exists():
@@ -43,39 +82,39 @@ def _first_existing(paths: Iterable[Path]) -> Optional[Path]:
 def _read_any_json(path: Path) -> pd.DataFrame:
     """
     Read a JSON/JSONL file into a DataFrame.
-    Tries jsonlines (orient=records) first; falls back to pandas reader.
+    Tries JSON Lines (orient=records) first; falls back to normal JSON (list/dict) or pandas auto.
     """
     if not path or not path.exists():
         return pd.DataFrame()
 
     # Try JSON Lines quickly
     try:
-        # Heuristic: if any line starts with "{" -> assume jsonl of objects.
         with path.open("r", encoding="utf-8") as fh:
-            head = [next(fh) for _ in range(5)]
+            head = []
+            for _ in range(5):
+                try:
+                    head.append(next(fh))
+                except StopIteration:
+                    break
         if any(x.strip().startswith("{") for x in head):
-            # If it’s a single big array, pandas will also handle; otherwise we try line-wise.
             try:
                 return pd.read_json(path, lines=True)
             except ValueError:
+                # Not jsonl; fall through to other strategies
                 pass
-    except StopIteration:
-        # empty file
-        return pd.DataFrame()
     except Exception:
         pass
 
-    # Try as normal JSON (list of dicts)
+    # Try as normal JSON (list or dict)
     try:
         with path.open("r", encoding="utf-8") as fh:
             data = json.load(fh)
         if isinstance(data, dict):
-            # common shapes: {"records":[...]}, {"data":[...]}
+            # common shapes: {"records":[...]}, {"data":[...]}, {"items":[...]}
             for key in ("records", "data", "items"):
                 if key in data and isinstance(data[key], list):
                     return pd.DataFrame(data[key])
-            # else: single dict -> one row
-            return pd.DataFrame([data])
+            return pd.DataFrame([data])  # single object
         elif isinstance(data, list):
             return pd.DataFrame(data)
     except Exception:
@@ -88,83 +127,73 @@ def _read_any_json(path: Path) -> pd.DataFrame:
         return pd.DataFrame()
 
 
-# ---------------------------
-# Data loading & normalization
-# ---------------------------
-def _pick_text_col(df: pd.DataFrame) -> pd.Series:
-    """Choose the best available text/content column."""
-    for col in ("text", "content", "body", "abstract", "selftext", "description"):
-        if col in df.columns:
-            return df[col]
-    # build from parts if nothing found
-    title = df.get("title", "")
-    summary = df.get("summary", "")
-    return (title.astype(str) + " " + summary.astype(str)).str.strip()
-
-
+# ---------------------------------------------------------------------
+# Normalization to tidy schema: source, kind, text, date, url
+# ---------------------------------------------------------------------
 def _ensure_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Normalize the heterogenous combined dataset into a tidy frame with
-    columns: source, kind, text, date, url.
+    Normalize the heterogeneous combined dataset into:
+        ['source', 'kind', 'text', 'date', 'url']
     """
-    out = df.copy()
+    out = (df if isinstance(df, pd.DataFrame) else pd.DataFrame()).copy()
 
-    # source
+    # --- PATCH: stringify unhashables in all columns before column selection ---
+    out = _stringify_unhashables(out)
+    # --- END PATCH ---
+
+    # source (string)
     out["source"] = (
-        _coalesce_cols(out, ["source", "src", "channel"], default="unknown")
+        _coalesce_cols(out, ["source"], default="unknown")
         .astype(str)
         .str.strip()
-        .str.lower()
     )
 
-    # kind / type
+    # kind/source_type (string)
     out["kind"] = (
-        _coalesce_cols(out, ["kind", "type"], default="").astype(str).str.strip().str.lower()
+        _coalesce_cols(out, ["source_type"], default="")
+        .astype(str)
+        .str.strip()
     )
 
-    # text-like content (order gives precedence)
+    # text/content (string). Your merged file already puts everything under 'combined_text'.
     out["text"] = (
-        _coalesce_cols(
-            out,
-            ["text", "title", "selftext", "abstract", "content", "summary", "body"],
-            default="",
-        )
+        _coalesce_cols(out, ["combined_text", "text", "content", "body", "abstract", "selftext", "description"], default="")
         .astype(str)
         .str.strip()
     )
 
-    # url/permalink
+    # url/permalink (string)
     out["url"] = (
-        _coalesce_cols(out, ["url", "link", "permalink"], default="")
+        _coalesce_cols(out, ["url", "permalink", "link"], default="")
         .astype(str)
         .str.strip()
     )
 
-    # date (several possible fields), then coerce to UTC
-    raw_date = _coalesce_cols(
-        out,
-        ["date", "created_utc", "published", "pub_date", "time", "created", "timestamp"],
-        default=pd.NaT,
-    )
+    # date → UTC-aware datetime
+    raw_date = _coalesce_cols(out, ["published_at", "date", "created_utc"], default=pd.NaT)
     out["date"] = coerce_utc_series(raw_date)
 
-    # keep only the columns the dashboard expects
+    # Keep only the columns the dashboard expects (ensure they exist)
     cols = ["source", "kind", "text", "date", "url"]
-    # make sure they exist even if empty
     for c in cols:
         if c not in out.columns:
             out[c] = pd.NA
     return out[cols]
 
 
-def load_data(data_dir: Path) -> pd.DataFrame:
+# ---------------------------------------------------------------------
+# Public load helpers
+# ---------------------------------------------------------------------
+def load_data(data_dir: Path | str) -> pd.DataFrame:
     """
     Load the unified dataset. Priority order:
-      1) combined.json (or .jsonl)
-      2) individual sources: reddit.json, journals.json, blogs.json
+      1) combined.jsonl / combined.json
+      2) individual sources: reddit.json(l), journals.json(l), blogs.json(l)
+    Returns a normalized DataFrame with columns: ['source','kind','text','date','url'].
     """
     data_dir = Path(data_dir)
 
+    # PATCH: Only use combined.json(l) as dashboard source
     combined = _first_existing([
         data_dir / "combined.jsonl",
         data_dir / "combined.json",
@@ -173,17 +202,20 @@ def load_data(data_dir: Path) -> pd.DataFrame:
         df = _read_any_json(combined)
         return _ensure_columns(df)
 
-    dfs = []
+    dfs: List[pd.DataFrame] = []
     for name in ("reddit", "journals", "blogs"):
         p = _first_existing([data_dir / f"{name}.jsonl", data_dir / f"{name}.json"])
         if p:
             dfs.append(_read_any_json(p))
+
     if not dfs:
         return _ensure_columns(pd.DataFrame())
-    return _ensure_columns(pd.concat(dfs, ignore_index=True))
+
+    df = pd.concat(dfs, ignore_index=True)
+    return _ensure_columns(df)
 
 
-def load_meta(data_dir: Path) -> dict:
+def load_meta(data_dir: Path | str) -> dict:
     """
     Load meta information if present. Tries:
       - corpus_meta.json
@@ -192,7 +224,7 @@ def load_meta(data_dir: Path) -> dict:
     Returns a small dict with counts and timestamps even if files are missing.
     """
     data_dir = Path(data_dir)
-    meta = {}
+    meta: dict = {}
 
     for fn in ("corpus_meta.json", "index_info.json", "merge_state.json"):
         p = data_dir / fn
@@ -220,11 +252,14 @@ def load_meta(data_dir: Path) -> dict:
     return meta
 
 
-# ---------------------------
+# ---------------------------------------------------------------------
 # Filtering helpers
-# ---------------------------
+# ---------------------------------------------------------------------
 def filter_window(df: pd.DataFrame, days: int) -> pd.DataFrame:
-    """Return rows newer than now-`days` (UTC). Keeps rows with NaT out."""
+    """
+    Return rows newer than now-`days` (UTC). Keeps rows with NaT out.
+    Uses tz-aware comparisons to avoid tz_localize errors.
+    """
     if df is None or not len(df) or "date" not in df.columns:
         return df if df is not None else pd.DataFrame()
     cutoff = pd.Timestamp(utc_now()).tz_convert("UTC") - pd.Timedelta(days=days)

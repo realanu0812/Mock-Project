@@ -1,26 +1,5 @@
 {
-  "last_run_iso": "2025-08-25T09:24:58.439728+00:00",
+  "last_run_iso": "2025-08-28T07:28:40.446566+00:00",
   "added": 0,
-  "total": 28,
-  "sites": [
-    "healthline.com",
-    "medicalnewstoday.com",
-    "bodybuilding.com",
-    "muscleandstrength.com",
-    "barbend.com",
-    "precisionnutrition.com",
-    "eatthis.com",
-    "examine.com",
-    "menshealth.com",
-    "verywellfit.com",
-    "self.com",
-    "shape.com",
-    "livestrong.com",
-    "myfitnesspal.com/blog",
-    "t-nation.com",
-    "nutrition.org",
-    "authoritynutrition.com",
-    "foodnetwork.com/healthyeats"
-  ],
-  "mode": "incremental"
+  "total": 15
 }

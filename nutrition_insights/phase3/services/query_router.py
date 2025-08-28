@@ -41,11 +41,11 @@ def build_context_snippets(
     df: pd.DataFrame,
     query: str,
     *,
-    topn: int = 8,
-    per_source_cap: int = 4,
-    min_chars: int = 220,
-    max_chars: int = 600,
-    recency_boost: float = 0.15,  # small boost for newer items
+    topn: int = None,
+    per_source_cap: int = None,
+    min_chars: int = 120,
+    max_chars: int = 900,
+    recency_boost: float = 0.10,  # small boost for newer items
 ) -> List[Snippet]:
     """
     Rank and format context snippets for the LLM.
@@ -94,19 +94,12 @@ def build_context_snippets(
 
     tmp = tmp[tmp["score"] > 0]
 
-    # Keep top-N with per-source cap for diversity
+    # Keep all matching rows, no cap or topn
     out_rows: List[Snippet] = []
-    counts: dict[str, int] = {}
-
     for _, row in tmp.iterrows():
-        src = (row.get("source") or "unknown").lower()
-        if counts.get(src, 0) >= per_source_cap:
-            continue
-
         snippet_text = _make_excerpt(row.get("text") or "", q_toks, min_chars, max_chars)
         if not snippet_text:
             continue
-
         dt = row.get("date")
         dt_str = None
         if pd.notna(dt):
@@ -114,25 +107,19 @@ def build_context_snippets(
                 dt_str = ensure_utc(dt).strftime("%Y-%m-%d")
             except Exception:
                 dt_str = None
-
-        # Fallback: use first 8 words of text if title is missing
         raw_title = (row.get("title") or "").strip()
         if not raw_title:
             raw_title = " ".join((row.get("text") or "").strip().split()[:8])
         out_rows.append(
             Snippet(
                 title=raw_title or "(untitled)",
-                source=src,
+                source=(row.get("source") or "unknown").lower(),
                 date=dt_str,
                 url=(row.get("url") or None),
                 excerpt=snippet_text,
                 score=float(row.get("score") or 0.0),
             )
         )
-        counts[src] = counts.get(src, 0) + 1
-        if len(out_rows) >= topn:
-            break
-
     return out_rows
 
 

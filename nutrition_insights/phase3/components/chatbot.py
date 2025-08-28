@@ -54,7 +54,12 @@ def _format_context(snippets: list[dict]) -> str:
 
 
 def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
-    st.subheader("Chatbot")
+    # Ensure all columns are hashable before caching
+    if df is not None and not df.empty:
+        import json
+        for col in df.columns:
+            df[col] = df[col].apply(lambda x: json.dumps(x, ensure_ascii=False) if isinstance(x, (list, dict, set)) else x)
+    
     _init_state()
     _render_history()
 
@@ -81,7 +86,8 @@ def render(df: pd.DataFrame, source_filter: str, window_days: int) -> None:
             df_filtered = df_filtered[pd.to_datetime(df_filtered["date"], errors="coerce") >= cutoff]
         except Exception:
             pass
-    snippets = build_context_snippets(df_filtered, q, topn=8)
+    # Use all available context snippets for Gemini
+    snippets = build_context_snippets(df_filtered, q)
     context = _format_context(snippets)
 
     # Compose prompt

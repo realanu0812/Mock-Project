@@ -1,9 +1,0 @@
-{
-  "total": 38,
-  "using_embeddings": true,
-  "min_len": 200,
-  "window_days": 180,
-  "protein_min_relevance": 0.3,
-  "near_dupe_thresh": 0.93,
-  "verified_only": false
-}

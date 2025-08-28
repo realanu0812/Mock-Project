@@ -164,6 +164,7 @@ def main():
                 "url": getattr(post, "url", ""),
                 "domain": "reddit.com",
                 "permalink": f"https://www.reddit.com{post.permalink}",
+                "source": "reddit",
                 "source_type": "reddit_post",
                 "is_verified": False,  # Phase 1 = unverified
                 "score": int(getattr(post, "score", 0)),
@@ -172,29 +173,13 @@ def main():
             }
 
             # Top comments (by score)
-            if args.comments > 0:
-                try:
-                    post.comments.replace_more(limit=0)
-                    comments = sorted(post.comments, key=lambda c: getattr(c, "score", 0), reverse=True)[: args.comments]
-                    top_texts = []
-                    for c in comments:
-                        if not getattr(c, "body", None):
-                            continue
-                        txt = c.body.strip()
-                        # Keep comments regardless of keyword; they are context
-                        top_texts.append(txt)
-                    if top_texts:
-                        item["top_comments"] = top_texts
-                except Exception:
-                    # Ignore comment fetch issues
-                    pass
+            # Removed top_comments scraping for hashability and format consistency
 
             # Combined text for RAG
             combined_segments = [f"Title: {title}"]
             if body:
                 combined_segments.append(f"Post: {body}")
-            if item.get("top_comments"):
-                combined_segments.append("Comments:\n" + "\n\n".join(item["top_comments"]))
+            # If you want to include comments, add them to combined_text only as a string, not as a list field
             item["combined_text"] = "\n\n".join(combined_segments).strip()
 
             collected.append(item)

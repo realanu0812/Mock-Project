@@ -220,6 +220,14 @@ def save_all(path: Path, records: List[Dict[str, Any]]):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
 
+def save_state(path: Path, last_run_iso: str, pmids: list):
+    state = {
+        "last_run_iso": last_run_iso,
+        "added": len(pmids),
+        "total": len(pmids)
+    }
+    path.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
 # ---------------- main ------------------------------------
 
 def main():
@@ -282,6 +290,7 @@ def main():
             "date": date,
             "url": url,
             "source": "journals",
+            "source_type": "journal_article",
             "is_verified": True,
             "text": text,
         }
@@ -293,6 +302,11 @@ def main():
         merged[r["id"]] = r
     merged_list = list(merged.values())
     save_all(OUTFILE, merged_list)
+    # Save state
+    state_path = DATA_DIR / "state_journals.json"
+    last_run_iso = datetime.now(timezone.utc).isoformat()
+    all_pmids = [r["pmid"] for r in merged_list]
+    save_state(state_path, last_run_iso, all_pmids)
     print(f"✅ Saved {len(to_add)} new | total={len(merged_list)} → {OUTFILE}")
 
 if __name__ == "__main__":

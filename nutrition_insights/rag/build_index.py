@@ -42,9 +42,16 @@ def load_jsonl(p: Path):
 
 def write_jsonl(p: Path, rows: list[dict]):
     p.parent.mkdir(parents=True, exist_ok=True)
+    import json
+    def _make_hashable(val):
+        if isinstance(val, (list, dict, set)):
+            return json.dumps(val, ensure_ascii=False)
+        return val
     with p.open("w", encoding="utf-8") as f:
         for r in rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+            # Ensure all values in dict are hashable
+            r_hashable = {k: _make_hashable(v) for k, v in r.items()}
+            f.write(json.dumps(r_hashable, ensure_ascii=False) + "\n")
 
 def chunk_text(text: str, size=CHUNK_CHARS, overlap=CHUNK_OVERLAP):
     text = text or ""
@@ -83,16 +90,20 @@ def main():
     # Prepare chunks & meta
     meta = []
     texts = []
+    MIN_CHUNK_LEN = 50
     for ridx, r in enumerate(rows):
-        chunks = chunk_text(r.get("text", ""))
+        # Use combined_text if available, else fallback to text
+        text_to_chunk = r.get("combined_text") or r.get("text") or ""
+        chunks = chunk_text(text_to_chunk)
         for cidx, chunk in enumerate(chunks):
-            if len(chunk.strip()) < 200:
+            if len(chunk.strip()) < MIN_CHUNK_LEN:
                 continue
             meta.append({
                 "rid": ridx,
                 "chunk_id": cidx,
                 "url": r.get("url"),
                 "title": r.get("title"),
+                "source": r.get("source"),
                 "source_type": r.get("source_type"),
                 "is_verified": r.get("is_verified", False),
                 "published_at": r.get("published_at"),

@@ -87,7 +87,13 @@ def load_state() -> dict:
         return {}
 
 def save_state(obj: dict) -> None:
-    save_json_list(STATE_FILE, obj)
+    # Save state in simple format: last_run_iso, added, total
+    state = {
+        "last_run_iso": obj.get("last_run_iso", iso_now()),
+        "added": obj.get("added", 0),
+        "total": obj.get("total", 0)
+    }
+    STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 # ---------- time helpers ----------
@@ -232,6 +238,7 @@ def process_feed(
             "published_at": pub_dt.isoformat() if pub_dt else None,
             "date_status": "known" if pub_dt else "unknown",
             "combined_text": f"{title}\n\n{summary}" if summary else title,
+            "source": "blogs",
             "source_type": "blog_article",
             "is_verified": False
         }

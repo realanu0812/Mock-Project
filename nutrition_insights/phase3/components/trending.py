@@ -5,6 +5,7 @@ import streamlit as st
 import pandas as pd
 from collections import Counter
 from typing import Iterable, List, Dict
+import json
 
 from utils.common import tokenize
 from utils.charts import bar
@@ -34,7 +35,11 @@ def _keyword_counts(df: pd.DataFrame, keywords: List[str]) -> Dict[str, int]:
                 counts[t] += 1
     return dict(counts)
 
-def render(df: pd.DataFrame, keywords: List[str], source_filter: str, top_n: int = 15) -> None:
+def render(df: pd.DataFrame, keywords: List[str], source_filter: str, meta=None, top_n: int = 15) -> None:
+    # Ensure all columns are hashable before caching
+    if df is not None and not df.empty:
+        for col in df.columns:
+            df[col] = df[col].apply(lambda x: json.dumps(x, ensure_ascii=False) if isinstance(x, (list, dict, set)) else x)
     """
     Trending Topics:
       - Keyword frequency bar chart (protein-only keywords)
@@ -89,3 +94,14 @@ def render(df: pd.DataFrame, keywords: List[str], source_filter: str, top_n: int
         "Keywords are matched on tokenized text from titles/summaries/content. "
         "Only protein-related terms supplied in the config are counted."
     )
+
+def render_trending():
+    # Load combined.json directly
+    data_path = "../data/combined.json"
+    try:
+        with open(data_path, "r", encoding="utf-8") as f:
+            records = json.load(f)
+        df = pd.DataFrame(records)
+    except Exception as e:
+        st.error(f"❌ Failed to load combined.json: {e}")
+        return

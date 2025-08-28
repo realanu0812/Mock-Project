@@ -1,8 +1,0 @@
-{
-  "built_at": "2025-08-20T09:49:37.651638+00:00",
-  "model": "sentence-transformers/all-MiniLM-L6-v2",
-  "normalized": false,
-  "dim": 384,
-  "num_vectors": 108,
-  "source": "/Volumes/Work/Mock-Project/nutrition_insights/data/corpus_filtered.jsonl"
-}

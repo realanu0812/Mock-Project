@@ -19,20 +19,15 @@ def chat_completion(prompt: str, system: Optional[str] = None, timeout: int = 60
     if not GEMINI_API_KEY:
         return "⚠️ (Gemini) GEMINI_API_KEY is not set"
 
-    # --- Load and filter protein-related evidence from the filtered corpus (RAG-style) ---
+    # --- Load and filter protein-related evidence from combined.json (RAG-style) ---
     import json
     import re
-    # Use filtered corpus for better relevance
-    evidence_path = os.path.join(os.path.dirname(__file__), "../../data/corpus_filtered.jsonl")
+    import os
+    evidence_path = os.path.join(os.path.dirname(__file__), "../../data/combined.json")
     evidence = []
     try:
         with open(evidence_path, "r", encoding="utf-8") as f:
-            for line in f:
-                try:
-                    item = json.loads(line)
-                    evidence.append(item)
-                except Exception:
-                    continue
+            evidence = json.load(f)
     except Exception:
         evidence = []
 
@@ -92,12 +87,31 @@ def chat_completion(prompt: str, system: Optional[str] = None, timeout: int = 60
     if not top_evidence and not top_reddit:
         return "⚠️ (Gemini) No protein-related evidence found in the filtered data corpus. Please check your query or try again later."
 
+    # --- Top K feature ---
+    # Allow user to specify top_k (default: 8 for journal, 4 for reddit)
+    import os
+    try:
+        top_k_journal = int(os.environ.get("GEMINI_TOP_K_JOURNAL", "8"))
+    except Exception:
+        top_k_journal = 8
+    try:
+        top_k_reddit = int(os.environ.get("GEMINI_TOP_K_REDDIT", "4"))
+    except Exception:
+        top_k_reddit = 4
+
+    # Optionally allow top_k override via prompt (e.g. "top k=5")
+    import re
+    top_k_match = re.search(r"top\s*k\s*=\s*(\d+)", prompt.lower())
+    if top_k_match:
+        top_k_journal = int(top_k_match.group(1))
+        top_k_reddit = max(2, top_k_journal // 2)
+
     # Build context for Gemini prompt
     context_parts = []
     if top_evidence:
-        context_parts.append("Journal/Verified Evidence:\n" + "\n---\n".join(top_evidence[:8]))
+        context_parts.append(f"Journal/Verified Evidence:\n" + "\n---\n".join(top_evidence[:top_k_journal]))
     if top_reddit:
-        context_parts.append("Community Buzz (Reddit/Blogs):\n" + "\n---\n".join(top_reddit[:4]))
+        context_parts.append(f"Community Buzz (Reddit/Blogs):\n" + "\n---\n".join(top_reddit[:top_k_reddit]))
     context_snippets = "\n\n".join(context_parts)
     user_text = f"Context (protein evidence from data corpus):\n{context_snippets}\n\nUser question: {prompt}"
     if system:

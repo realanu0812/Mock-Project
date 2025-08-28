@@ -75,7 +75,18 @@ def load_index():
     if not FAISS_INDEX.exists() or not INDEX_META.exists():
         raise SystemExit("Missing FAISS files; run build_index.py first.")
     index = faiss.read_index(str(FAISS_INDEX))
-    meta = [json.loads(line) for line in INDEX_META.read_text(encoding="utf-8").splitlines() if line.strip()]
+    import json
+    def _make_hashable(val):
+        if isinstance(val, (list, dict, set)):
+            return json.dumps(val, ensure_ascii=False)
+        return val
+    meta = []
+    for line in INDEX_META.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            item = json.loads(line)
+            # Ensure all values in dict are hashable
+            item_hashable = {k: _make_hashable(v) for k, v in item.items()}
+            meta.append(item_hashable)
     return index, meta
 
 # NOTE: build_index uses an embedding function; at query time we mirror dim with a stable hash.
@@ -122,8 +133,8 @@ def format_context(chunks: list[dict], ctx_per_source: int = 10, verified_boost:
         src = c.get("source", "unknown")
         url = c.get("url") or c.get("link") or ""
         title = c.get("title") or c.get("id") or src
-        body = c.get("text") or c.get("content") or ""
-        when = c.get("published") or c.get("date") or ""
+        body = c.get("combined_text") or c.get("text") or c.get("content") or ""
+        when = c.get("published_at") or c.get("published") or c.get("date") or ""
         lines.append(f"[{i}] {title} | {when} | {url}\n{body}\n")
     return "\n\n".join(lines), chosen
 

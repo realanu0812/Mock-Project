@@ -1,5 +1,13 @@
+
 # phase3/utils/common.py
 from __future__ import annotations
+
+# ---------------------------
+# Export protein keywords for components
+# ---------------------------
+def protein_keywords() -> set[str]:
+    """Return set of protein-related keywords."""
+    return set(PROTEIN_WORDS)
 
 from dataclasses import dataclass
 from pathlib import Path
